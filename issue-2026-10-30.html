@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>科技前沿雷达 · 第 43–44 周（双周合并）</title>
+<style>
+/* 科技前沿雷达 · 样式（移动优先 · 浅色分区） */
+
+:root{
+  /* 底色与线 */
+  --bg:#f5f6f8;
+  --surface:#ffffff;
+  --line:#e5e8ee;
+  --line-2:#eef0f5;
+
+  /* 文字 */
+  --ink:#18212c;
+  --ink-2:#3d4854;
+  --muted:#5a6573;
+  --faint:#7b8592;
+
+  /* 强调 */
+  --accent:#2f6bd8;
+  --accent-ink:#1f4fa8;
+  --accent-soft:#e9f0fc;
+
+  /* 分区底色 */
+  --hero-1:#dde9fb;
+  --hero-2:#f0f6fe;
+  --focus-bg:#edf2fc;
+  --focus-line:#dae4f5;
+  --foot-bg:#eceff4;
+
+  --r:12px;
+  --shadow-1:0 1px 2px rgba(20,32,50,.04);
+  --shadow-2:0 2px 10px -4px rgba(20,32,50,.12);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:62px}
+body{background:var(--bg);color:var(--ink);font-size:15px;line-height:1.68;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  overflow-x:clip}
+a{color:inherit;text-decoration:none}
+.wrap{padding:0 14px}
+
+/* ============================================================
+   ① 页头：浅蓝分区
+   ============================================================ */
+.hero{background:linear-gradient(180deg,var(--hero-1) 0%,var(--hero-2) 100%);
+  border-bottom:1px solid #cfdcf2}
+.hero .in{padding:20px 14px 16px}
+.hero h1{display:flex;align-items:center;gap:8px;font-size:20px;font-weight:700;
+  color:#123a72;letter-spacing:.01em;line-height:1.35}
+.hero h1 .ico{font-size:18px;line-height:1}
+.hero .range{margin-top:10px;font-size:13px;color:#4a6a99;font-variant-numeric:tabular-nums}
+.hero .hmeta{margin-top:6px;font-size:12.5px;line-height:1.7;color:#5c789f}
+.hero .hmeta b{font-weight:600;color:#25456f}
+
+.periods{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:13px}
+.pday{flex:none;display:inline-flex;align-items:center;justify-content:center;
+  height:34px;padding:0 12px;border-radius:8px;font-size:12.5px;white-space:nowrap;
+  color:#3f5f8c;background:rgba(255,255,255,.72);border:1px solid #d3dff2}
+.pday.on{background:#fff;border-color:#9fbdea;color:var(--accent-ink);font-weight:700;
+  box-shadow:0 1px 2px rgba(30,70,140,.10)}
+.pall{flex:none;height:34px;padding:0 12px;border-radius:8px;white-space:nowrap;
+  border:1px dashed #b8cbeb;background:transparent;color:#4a6a99;
+  font-size:12.5px;font-family:inherit;cursor:pointer}
+
+.plist{position:absolute;z-index:80;min-width:250px;max-width:calc(100vw - 28px);
+  margin-top:6px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:5px;
+  display:none;box-shadow:var(--shadow-2),0 14px 32px -16px rgba(20,40,80,.24)}
+.plist.open{display:block}
+.plist a{display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+  padding:9px 11px;border-radius:7px;font-size:13px;color:var(--ink-2)}
+.plist a:active{background:#f2f5fa}
+.plist a.on{background:var(--accent-soft);color:var(--accent-ink);font-weight:700}
+.plist a .wk{font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+.plist a .rg{font-size:11.5px;color:var(--faint);font-variant-numeric:tabular-nums}
+
+/* ============================================================
+   ② 导航：方向标签条（横滑）+ 目录
+   ============================================================ */
+.nav{position:sticky;top:0;z-index:60;background:#fff;
+  border-bottom:1px solid var(--line);box-shadow:0 2px 7px rgba(20,32,50,.06)}
+.nav .in{display:flex;align-items:center;gap:8px;height:52px;padding:0 10px}
+
+/* 方向标签由当期重点动态生成，数量不定，支持横滑 */
+.chips{display:flex;align-items:center;gap:6px;flex:1;min-width:0;
+  overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;-ms-overflow-style:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;display:inline-flex;align-items:center;height:32px;padding:0 10px;
+  border-radius:7px;font-size:12.5px;color:var(--ink-2);background:#f3f5f9;
+  white-space:nowrap;transition:background .15s,color .15s}
+.chip.on{background:var(--accent-soft);color:var(--accent-ink);font-weight:700;
+  box-shadow:inset 0 0 0 1px #c6daf8}
+
+.catbtn{flex:none;display:inline-flex;align-items:center;gap:4px;height:34px;padding:0 10px;
+  border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink-2);
+  font-size:12.5px;font-family:inherit;cursor:pointer}
+.catbtn:active{background:#f3f5f9}
+.catbtn[aria-expanded="true"]{border-color:#c6daf8;background:var(--accent-soft);color:var(--accent-ink)}
+.catbtn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.8}
+
+.navpanel{position:absolute;right:10px;top:calc(100% + 6px);width:min(300px,calc(100vw - 20px));
+  background:#fff;border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 18px 40px -18px rgba(20,40,80,.26),var(--shadow-1);
+  max-height:min(68vh,520px);overflow:auto;padding:6px;display:none;z-index:65}
+.navpanel.open{display:block}
+.ngroup{padding:5px 3px 3px}
+.ngroup+.ngroup{border-top:1px solid var(--line-2)}
+.nghead{display:flex;align-items:baseline;gap:7px;padding:2px 6px 3px}
+.nghead h4{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--faint)}
+.nghead span{font-size:10px;color:#9aa3b0}
+.ni{display:flex;align-items:center;gap:8px;min-height:34px;padding:4px 6px;border-radius:7px}
+.ni .num{flex:none;width:18px;font-size:10.5px;color:var(--faint);font-variant-numeric:tabular-nums}
+.ni .nm{flex:1;min-width:0;font-size:13px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ni .cov{flex:none;font-size:10px;color:#9aa3b0;font-variant-numeric:tabular-nums}
+.ni .st{flex:none;width:20px;text-align:right;font-size:10.5px;color:var(--faint);font-variant-numeric:tabular-nums}
+.ni:active{background:#f2f5fa}
+.ni.on{background:var(--accent-soft)}
+.ni.on .nm{color:var(--accent-ink);font-weight:700}
+.pfoot{padding:7px 6px 3px;margin-top:3px;border-top:1px solid var(--line-2);
+  font-size:10.5px;color:#9aa3b0;line-height:1.6}
+
+/* ============================================================
+   ③ 本期重点：浅靛蓝分区
+   ============================================================ */
+.focus{margin-top:14px;background:var(--focus-bg);border:1px solid var(--focus-line);
+  border-radius:var(--r);padding:12px 12px 12px}
+.focus-hd{display:flex;align-items:center;gap:8px;padding:0 2px 10px}
+.focus-hd .starico{flex:none;width:17px;height:17px;display:block}
+.focus-hd h2{font-size:15px;font-weight:700;color:#1b3f74}
+.focus-hd .cnt{margin-left:auto;font-size:12px;color:#6b83a8;font-variant-numeric:tabular-nums}
+
+.fcard{background:#fff;border:1px solid #e2e9f6;border-radius:10px;padding:13px 13px;margin-bottom:9px}
+.fcard:last-child{margin-bottom:0}
+.fkick{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:11.5px;
+  color:#5d7290;margin-bottom:6px}
+.fkick .sep{color:#cdd7e6}
+.fcard h3{font-size:16px;line-height:1.45;font-weight:700;color:var(--ink);margin-bottom:6px}
+.fcard .fsum{font-size:13.5px;color:var(--ink-2);line-height:1.66}
+.fmeta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px;
+  font-size:11.5px;color:var(--faint)}
+.fmeta .src{color:var(--muted);font-weight:600}
+.fmeta .dot{color:#d5dbe4}
+
+.type{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700;letter-spacing:.05em}
+.type::before{content:"";width:5px;height:5px;border-radius:1px;background:currentColor}
+.type.industry{color:#0f7a58} .type.policy{color:#7440c9}
+.type.standard{color:#0d7288} .type.tech{color:#2f6bd8}
+.type.capital{color:#9a6414}
+.star{color:#d4453c;font-size:10px;letter-spacing:2px}
+
+/* 事件解读：做成醒目的可展开入口 */
+.interp{margin-top:12px;border-top:1px solid #eaf0fa;padding-top:10px}
+.interp summary{list-style:none;display:flex;align-items:center;gap:8px;min-height:44px;
+  padding:0 11px;border:1px solid #c5d8f6;border-radius:9px;
+  background:linear-gradient(180deg,#eff5ff 0%,#e5eefe 100%);
+  font-size:13px;font-weight:700;color:var(--accent-ink);
+  cursor:pointer;user-select:none;transition:background .15s,border-color .15s,box-shadow .15s}
+.interp summary::-webkit-details-marker{display:none}
+.interp summary:hover{border-color:#a6c3ef;box-shadow:0 1px 0 rgba(30,70,140,.07)}
+.interp summary:active{background:#dfe9fb}
+.interp .ic{flex:none;width:18px;height:18px;border-radius:50%;background:var(--accent);
+  color:#fff;font:italic 700 11px/18px Georgia,"Times New Roman",serif;text-align:center}
+.interp .ihint{margin-left:auto;display:flex;align-items:center;gap:4px;
+  font-size:11.5px;font-weight:600;color:#3f6cb0}
+.interp .ihint-close{display:none}
+.interp .chev{font-size:8px;color:#7b95b8;transition:transform .2s}
+.interp[open] summary{background:#eaf1fd}
+.interp[open] .chev{transform:rotate(180deg)}
+.interp[open] .ihint-open{display:none}
+.interp[open] .ihint-close{display:inline}
+.ibody{animation:fade .16s ease;padding-top:8px}
+@keyframes fade{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+.ib{padding:10px 0;border-top:1px dashed #e6ecf7}
+.ib:first-child{border-top:none;padding-top:2px}
+.ib h6{font-size:11.5px;font-weight:700;color:#2a5590;margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.ib h6 b{font-size:9px;color:#8fa8c8;border:1px solid #dfe8f6;border-radius:3px;padding:0 3px;font-weight:700}
+.ib p,.ib li{font-size:13px;color:var(--ink-2);line-height:1.72}
+.ib ul{list-style:none}
+.ib li{padding-left:11px;position:relative}
+.ib li::before{content:"·";position:absolute;left:1px;color:#a3b6cf;font-weight:700}
+.ib li b{color:var(--ink);font-weight:700}
+.isrc{margin-top:9px;padding-top:8px;border-top:1px solid #eaf0fa;font-size:11px;color:var(--faint);line-height:1.6}
+.isrc .ok{color:#0f7a58}
+
+/* ============================================================
+   ④ 分区标题条
+   ============================================================ */
+.secbar{display:flex;align-items:baseline;gap:8px;margin:20px 2px 8px;
+  padding-top:14px;border-top:1px solid var(--line)}
+.secbar h2{font-size:13px;font-weight:700;color:var(--ink);letter-spacing:.02em}
+.secbar span{font-size:11.5px;color:var(--faint)}
+
+/* ============================================================
+   ⑤ 方向区块：单色系浅底 + 左侧色条
+   ============================================================ */
+.domain{--c:#2f6bd8;margin-bottom:12px;background:var(--surface);
+  border:1px solid var(--line);border-left:4px solid var(--c);
+  border-radius:10px;overflow:hidden;box-shadow:var(--shadow-1)}
+.dhead{display:flex;align-items:flex-start;gap:9px;padding:11px 13px 10px;
+  background:#f7f9fc;background:color-mix(in srgb, var(--c) 7%, #fff);
+  border-bottom:1px solid var(--line-2)}
+.dnum{flex:none;font-size:18px;font-weight:700;letter-spacing:-.02em;line-height:1.1;
+  font-variant-numeric:tabular-nums;padding-top:2px;color:var(--c);opacity:.62}
+.dtxt{flex:1;min-width:0}
+.dtxt h3{font-size:15.5px;font-weight:700;line-height:1.4;color:var(--ink)}
+.dsub{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5}
+.dsub .fq{color:var(--ink-2);font-weight:600}
+.dsub .dot{margin:0 4px;color:#c8d0da}
+.dcnt{flex:none;font-size:10.5px;color:var(--faint);text-align:right;padding-top:3px}
+.dcnt b{display:block;font-size:15px;font-weight:700;color:var(--c);line-height:1.2;font-variant-numeric:tabular-nums}
+
+.entry{padding:11px 13px 12px;border-bottom:1px solid var(--line-2)}
+.entry:last-child{border-bottom:none}
+.entry:active{background:#f8fafc}
+.ekick{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.ekick .star{margin-left:auto}
+.entry h4{font-size:15px;font-weight:600;line-height:1.48;letter-spacing:-.002em}
+.entry h4 a{display:block}
+.entry h4 a:not(.nourl):hover,.fcard h3 a:not(.nourl):hover{
+  color:var(--accent-ink);text-decoration:underline;text-underline-offset:3px;
+  text-decoration-thickness:1px}
+a.nourl{cursor:default}
+.esum{font-size:13.5px;color:var(--ink-2);line-height:1.65;margin-top:4px}
+.emeta{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:7px;font-size:11px;color:var(--faint)}
+.emeta .src{color:var(--muted);font-weight:600}
+.emeta .dot{color:#d5dbe4}
+.tr{font-size:9.5px;color:#5d6775;background:#f1f4f8;border-radius:3px;padding:0 4px;line-height:1.7}
+
+/* 重点条目引用行 */
+.entry.ref{background:#fbfcfe}
+.entry.ref h4{font-size:14.5px}
+.reftag{font-size:9.5px;color:var(--c);border:1px solid currentColor;border-radius:3px;
+  padding:0 4px;line-height:1.7;opacity:.8}
+.refnote{font-size:11.5px;color:var(--muted);margin-top:5px;display:flex;align-items:center;gap:4px}
+.refnote .arrow{color:var(--c);font-weight:700}
+
+/* 空方向：单行 */
+.eline{--c:#2f6bd8;display:flex;align-items:center;gap:8px;min-height:50px;padding:0 13px;
+  margin-bottom:10px;background:var(--surface);border:1px solid var(--line);
+  border-left:4px solid var(--c);border-radius:10px}
+.eline:active{background:#f8fafc}
+.eline .en{flex:none;width:18px;font-size:11px;color:var(--c);opacity:.55;font-variant-numeric:tabular-nums}
+.eline .et{flex:1;min-width:0;font-size:13.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eline .er{flex:none;font-size:10px;padding:1px 6px;border-radius:3px;line-height:1.7}
+.eline .er.e-rot{background:#f1f3f7;color:#5f6b7a}
+.eline .er.e-qual{background:#fdf4e6;color:#8a5a12}
+.eline .er.e-fail{background:#fdeceb;color:#a32a22}
+.eline .ex{flex:none;font-size:10px;color:var(--faint);font-variant-numeric:tabular-nums}
+
+/* ============================================================
+   ⑥ 日历
+   ============================================================ */
+.cal{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  overflow:hidden;margin-top:4px;box-shadow:var(--shadow-1)}
+.cal .calhd{display:flex;align-items:center;gap:8px;padding:12px 13px 9px;
+  background:#f7f9fc;border-bottom:1px solid var(--line-2)}
+.cal .calhd h2{font-size:13.5px;font-weight:700;color:var(--ink)}
+.cal .calhd .note{font-size:11px;color:var(--faint);margin-left:auto}
+.cal ul{list-style:none}
+.cal li{display:grid;grid-template-columns:56px 1fr;gap:2px 9px;padding:11px 13px;
+  border-top:1px solid var(--line-2);align-items:baseline}
+.cal li:first-child{border-top:none}
+.cal .d{font-size:12px;font-weight:700;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.cal .d.soon{color:#c9352b}
+.cal .e{font-size:13.5px;color:var(--ink);line-height:1.6}
+.cal .m{grid-column:2;font-size:10.5px;color:var(--faint);display:flex;gap:7px;flex-wrap:wrap;margin-top:2px}
+.cal .pill{font-size:10px;padding:0 6px;border-radius:999px;line-height:1.8}
+.cal .pill.soon{background:#fdecea;color:#c9352b}
+.cal .pill.next{background:var(--accent-soft);color:var(--accent-ink)}
+
+/* ============================================================
+   ⑦ 页脚：浅灰分区
+   ============================================================ */
+footer{margin-top:18px;background:var(--foot-bg);border-top:1px solid #dfe4ec}
+footer .in{padding:16px 14px 32px}
+.fgrid{display:grid;gap:12px;font-size:12px;color:var(--muted)}
+.fgrid h5{font-size:11.5px;color:var(--ink-2);font-weight:700;margin-bottom:4px;letter-spacing:.02em}
+.fgrid p{margin-bottom:3px;line-height:1.65}
+details.rules{margin-top:14px;background:#fff;border:1px solid #dfe4ec;border-radius:10px;overflow:hidden}
+details.rules summary{list-style:none;cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px;
+  padding:9px 13px;font-size:12px;font-weight:600;color:var(--ink-2)}
+details.rules summary::-webkit-details-marker{display:none}
+details.rules .chev{font-size:8px;color:var(--faint);margin-left:auto;transition:transform .2s}
+details.rules[open] .chev{transform:rotate(180deg)}
+.rbody{padding:11px 13px 13px;font-size:12px;color:var(--ink-2);line-height:1.75;border-top:1px solid var(--line-2)}
+.rbody .lv{display:grid;grid-template-columns:1fr;gap:2px;padding:8px 0;border-bottom:1px dashed var(--line-2)}
+.rbody .lv:last-child{border-bottom:none}
+.rbody .k{font-weight:700;color:#c9352b;font-size:11.5px;letter-spacing:1px}
+.rbody .k.two{color:#b45309} .rbody .k.one{color:var(--muted)}
+.rbody .k.other{color:var(--ink-2);font-size:11px;letter-spacing:0}
+.rbody .k em{display:block;font-style:normal;font-size:10px;font-weight:600;
+  letter-spacing:0;color:inherit;opacity:.82;margin-top:1px}
+.modnote{margin-top:12px;padding:11px 13px;background:#fff;border:1px solid #dfe4ec;border-radius:10px;
+  font-size:11.5px;color:#4a5f7d;line-height:1.7}
+.modnote b{color:#25456f}
+.disclaim{margin-top:12px;font-size:11px;color:var(--faint);line-height:1.65}
+
+/* ============================================================
+   ⑧ 回到顶部
+   ============================================================ */
+.totop{position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:70;
+  width:44px;height:44px;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:#fff;border:1px solid var(--line);color:var(--ink-2);cursor:pointer;
+  box-shadow:0 6px 18px -8px rgba(20,40,80,.4),0 1px 2px rgba(20,32,50,.06);
+  opacity:0;visibility:hidden;transform:translateY(8px);
+  transition:opacity .2s ease,transform .2s ease,visibility .2s}
+.totop.show{opacity:1;visibility:visible;transform:none}
+.totop:active{background:#f1f4f8}
+.totop svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round}
+@media (min-width:760px){.totop{right:24px;bottom:24px;width:46px;height:46px}}
+
+/* 窄屏精简：方向副标题只留频率与信源，细分领域在桌面端展开 */
+@media (max-width:759px){
+  .dsub .sub,.dsub .comma{display:none}
+  .dsub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
+
+/* ============================================================
+   桌面增强
+   ============================================================ */
+@media (min-width:760px){
+  body{font-size:15.5px}
+  .wrap{padding:0 24px;max-width:920px;margin:0 auto}
+  .hero .in{padding:30px 24px 22px;max-width:920px;margin:0 auto}
+  .hero h1{font-size:25px;gap:10px}
+  .hero h1 .ico{font-size:22px}
+  .hero .range{font-size:14px;margin-top:12px}
+  .hero .hmeta{font-size:13px}
+  .periods{gap:8px;margin-top:16px}
+  .pday,.pall{height:32px;font-size:13px}
+  .nav .in{padding:0 24px;max-width:920px;margin:0 auto}
+  .navpanel{right:calc((100% - 920px)/2 + 24px);width:340px}
+  .chip{height:30px;font-size:12.5px}
+  .focus{padding:14px}
+  .focus-hd h2{font-size:16px}
+  .fcard{padding:17px 18px}
+  .fcard h3{font-size:17.5px}
+  .fcard .fsum{font-size:14px}
+  .entry{padding:13px 18px 14px}
+  .entry:hover{background:#fafbfd}
+  .entry h4{font-size:15.5px}
+  .esum{font-size:14px}
+  .dhead{padding:13px 18px 11px}
+  .dtxt h3{font-size:16.5px}
+  .dsub{font-size:11.5px}
+  .eline{padding:0 18px}
+  .cal li{grid-template-columns:74px 1fr 180px auto;align-items:center}
+  .cal .m{grid-column:auto;margin:0;justify-content:flex-end}
+  .fgrid{grid-template-columns:repeat(3,1fr);gap:24px}
+  .rbody .lv{grid-template-columns:66px 1fr;gap:10px}
+}
+
+/* ============================================================
+   ⑨ 历史期次附加栏目（旧版 财报 / 简讯 / 未来关注）
+   ============================================================ */
+.blist{list-style:none;margin-top:6px}
+.blist li{position:relative;padding-left:11px;font-size:13.5px;color:var(--ink-2);line-height:1.66}
+.blist li+li{margin-top:5px}
+.blist li::before{content:"·";position:absolute;left:1px;color:#a3b6cf;font-weight:700}
+.dnum.ico{opacity:1;font-size:16px;letter-spacing:0}
+.cal li .e b{font-weight:700;color:var(--ink)}
+
+@media print{
+  .nav,.navpanel,.plist{display:none!important}
+  body{background:#fff;font-size:10.5pt}
+  .hero{background:#f0f4fa!important}
+  .periods{display:none}
+  .domain,.cal,.fcard,.eline{break-inside:avoid;box-shadow:none}
+  .totop{display:none!important}
+  .interp summary{display:none}
+  .ibody{display:block!important}
+  footer{background:#fff}
+}
+
+</style>
+</head>
+<body>
+
+<article class="issue" id="w44" data-week="44" data-label="第 43–44 周（双周合并）">
+
+  <header class="hero"><div class="in">
+    <h1><span class="ico">🚀</span>科技前沿雷达</h1>
+    <p class="range">2026-10-17 ～ 2026-10-30</p>
+    <p class="hmeta">收录 <b>43</b> 条 · 重点 <b>9</b> 条 ·
+      覆盖 <b>16/16</b> 方向 · 生成于 2026-10-30</p>
+    <div class="periods"><a class="pday" href="index.html">最新 · 11-06</a><a class="pday on" href="issue-2026-10-30.html">历史 · 10-30</a><a class="pday" href="issue-2026-10-16.html">历史 · 10-16</a><a class="pday" href="issue-2026-10-02.html">历史 · 09-30</a><button class="pall" aria-expanded="false" aria-controls="plist-44">全部期次</button></div>
+    <div class="plist" id="plist-44"><a href="index.html"><span class="wk">2026-10-31 ～ 2026-11-06</span></a><a class="on" href="issue-2026-10-30.html"><span class="wk">2026-10-17 ～ 2026-10-30</span></a><a href="issue-2026-10-16.html"><span class="wk">2026-10-09 ～ 2026-10-16</span></a><a href="issue-2026-10-02.html"><span class="wk">2026-09-25 ～ 2026-09-30</span></a><a href="issue-2026-09-25.html"><span class="wk">2026-09-17 ～ 2026-09-24</span></a><a href="issue-2026-09-18.html"><span class="wk">2026-09-11 ～ 2026-09-18</span></a></div>
+  </div></header>
+
+  <nav class="nav">
+    <div class="in">
+      <div class="chips"></div>
+      <button class="catbtn" aria-expanded="false" aria-haspopup="true" aria-controls="panel-44">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="5" height="5" rx="1"/><rect x="9.5" y="1.5" width="5" height="5" rx="1"/><rect x="1.5" y="9.5" width="5" height="5" rx="1"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/></svg>目录
+      </button>
+    </div>
+    <div class="navpanel" id="panel-44"><div class="ngroup"><div class="nghead"><h4>每周更新</h4><span>12 个</span></div><a class="ni" href="#d44-1"><span class="num">01</span><span class="nm">集成电路与半导体</span><span class="cov">7 源</span><span class="st">5</span></a><a class="ni" href="#d44-2"><span class="num">02</span><span class="nm">工业母机与工业软件</span><span class="cov">4 源</span><span class="st">3</span></a><a class="ni" href="#d44-3"><span class="num">03</span><span class="nm">算力基础设施与云网融合</span><span class="cov">4 源</span><span class="st">3</span></a><a class="ni" href="#d44-6"><span class="num">06</span><span class="nm">人工智能与大模型</span><span class="cov">5 源</span><span class="st">3</span></a><a class="ni" href="#d44-7"><span class="num">07</span><span class="nm">具身智能与机器人</span><span class="cov">3 源</span><span class="st">3</span></a><a class="ni" href="#d44-8"><span class="num">08</span><span class="nm">智能驾驶与自动驾驶</span><span class="cov">2 源</span><span class="st">2</span></a><a class="ni" href="#d44-9"><span class="num">09</span><span class="nm">航空航天与商业航天</span><span class="cov">3 源</span><span class="st">3</span></a><a class="ni" href="#d44-11"><span class="num">11</span><span class="nm">生物医药与脑机接口</span><span class="cov">4 源</span><span class="st">2</span></a><a class="ni" href="#d44-12"><span class="num">12</span><span class="nm">生物制造</span><span class="cov">2 源</span><span class="st">2</span></a><a class="ni" href="#d44-13"><span class="num">13</span><span class="nm">新能源与新型储能</span><span class="cov">2 源</span><span class="st">2</span></a><a class="ni" href="#d44-14"><span class="num">14</span><span class="nm">氢能与可控核聚变</span><span class="cov">2 源</span><span class="st">2</span></a><a class="ni" href="#d44-16"><span class="num">16</span><span class="nm">新材料与前沿材料</span><span class="cov">2 源</span><span class="st">2</span></a></div><div class="ngroup"><div class="nghead"><h4>双周更新</h4><span>4 个</span></div><a class="ni" href="#d44-4"><span class="num">04</span><span class="nm">6G 与星地融合通信</span><span class="cov">1 源</span><span class="st">2</span></a><a class="ni" href="#d44-5"><span class="num">05</span><span class="nm">网络安全与后量子密码</span><span class="cov">4 源</span><span class="st">3</span></a><a class="ni" href="#d44-10"><span class="num">10</span><span class="nm">低空经济与 eVTOL</span><span class="cov">3 源</span><span class="st">3</span></a><a class="ni" href="#d44-15"><span class="num">15</span><span class="nm">量子科技</span><span class="cov">4 源</span><span class="st">3</span></a></div><div class="pfoot">序号 01–16 为方向固定编号；右侧依次为「本期来源数」与「本期条数」。</div></div>
+  </nav>
+  <main><div class="wrap">
+    <section class="focus" id="focus-44"><div class="focus-hd"><svg class="starico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4l2.7 6.1 6.6.6-5 4.4 1.5 6.5L12 16.6 6.2 20l1.5-6.5-5-4.4 6.6-.6z" fill="#e8455c"/><path d="M19.9 2.6l.75 1.7 1.7.75-1.7.75-.75 1.7-.75-1.7-1.7-.75 1.7-.75z" fill="#ff9aab"/></svg><h2>本期重点</h2><span class="cnt">9 条</span></div><article class="fcard" id="focus-44-e44-0201" data-dir="#d44-2" data-dir-label="工业母机"><div class="fkick"><span>工业母机与工业软件</span><span class="sep">/</span><span class="type policy">政策</span><span class="sep">/</span><span>产业政策</span><span class="star" role="img" aria-label="重点">★★★</span></div><h3><a href="https://cj.sina.com.cn/articles/view/2868676035/aafc85c302001yub8" target="_blank" rel="noopener noreferrer">中办、国办发文推动科技创新与产业创新融合，点名工业母机等五领域攻关“决定性突破”</a></h3><p class="fsum">10 月 21 日发布的《关于推动科技创新和产业创新深度融合的意见》提出，推动集成电路、工业母机、高端仪器、先进材料、生物制造等重点领域关键核心技术攻关取得决定性突破，并部署产业基础再造与重大技术装备攻关工程。</p><details class="interp"><summary><span class="ic" aria-hidden="true">i</span><span class="ilabel">事件解读</span><span class="ihint"><span class="ihint-open">展开 4 个要点</span><span class="ihint-close">收起</span><span class="chev">▼</span></span></summary><div class="ibody"><div class="ib"><h6><b>01</b>政策要点</h6><p>文件层级：中共中央办公厅、国务院办公厅联合印发，属“党的文件 + 国务院文件”双轨，落点是产业链自主可控，不是一份科技计划。核心变化在攻关主体——从“高校院所为主”改为“企业牵头”，并把薄弱环节拆成基础零部件、关键基础软件、关键基础材料、先进基础工艺四类，等于给产业基础再造工程重新划了重点。</p></div><div class="ib"><h6><b>02</b>关键条款与时间表</h6><ul><li>点名 5 个重点领域：集成电路、工业母机、高端仪器、先进材料、生物制造</li><li>部署 2 项国家级工程：产业基础再造工程、重大技术装备攻关工程</li><li>授权口径：支持企业深度参与技术路线制定、更多牵头实施攻关任务</li><li>文件未给出资金规模与考核时间表，具体细则待部委配套</li></ul></div><div class="ib"><h6><b>03</b>影响判断</h6><p>对工业母机与工业软件是实质利好：政策从“支持整机”转向“支持基础软件与核心部件”，意味着数控系统、求解器内核这类长周期项目更容易拿到持续资金。但要看到，文件给的是方向与主体，不含具体资金规模与考核口径，真正的分水岭在部委配套细则。</p></div><div class="ib"><h6><b>04</b>后续观察点</h6><ul><li>工信部配套实施方案是否给出专项资金规模与时间表</li><li>是否设立面向工业软件内核的单独考核指标</li><li>首批“企业牵头”项目名单的构成，整机厂与部件厂比例如何</li></ul></div><div class="isrc">中办、国办《意见》（L1 政策原文）· 财联社（L2 转载）　✓ 多源同文印证</div></div></details><div class="fmeta"><span class="src">国务院政策文件库 · 财联社</span><span class="dot">·</span><span>2026-10-21</span></div></article><article class="fcard" id="focus-44-e44-0301" data-dir="#d44-3" data-dir-label="算力"><div class="fkick"><span>算力基础设施与云网融合</span><span class="sep">/</span><span class="type policy">政策</span><span class="sep">/</span><span>算力网</span><span class="star" role="img" aria-label="重点">★★★</span></div><h3><a href="https://fund.eastmoney.com/a/202610243907095730.html" target="_blank" rel="noopener noreferrer">《国家信息化“十五五”规划》印发，明确加快构建全国一体化算力网</a></h3><p class="fsum">中央网信委 10 月 23 日印发《国家信息化“十五五”规划》，提出加快构建全国一体化算力网，推动算力、电力、网络协同发展，优化通用算力、智能算力、超级算力布局。</p><details class="interp"><summary><span class="ic" aria-hidden="true">i</span><span class="ilabel">事件解读</span><span class="ihint"><span class="ihint-open">展开 4 个要点</span><span class="ihint-close">收起</span><span class="chev">▼</span></span></summary><div class="ibody"><div class="ib"><h6><b>01</b>政策要点</h6><p>《国家信息化“十五五”规划》由中央网络安全和信息化委员会印发，是信息化领域的五年顶层文件。与“东数西算”阶段的布局文件相比，这次把算力、电力、网络写在同一句里：考核口径从“建了多少 P”转向“用掉多少 P”，同时给跨区域调度与绿电配套留出政策接口。</p></div><div class="ib"><h6><b>02</b>关键条款与时间表</h6><ul><li>加快构建全国一体化算力网，推动算力、电力、网络协同发展</li><li>优化通用算力、智能算力、超级算力三类布局</li><li>配套数据：日均 Token 调用量由 2024 年初 1000 亿增至 2026 年 3 月超 140 万亿（国家数据局）</li><li>时间维度：五年规划，与“十五五”其他专项规划同步落地，具体工程清单待配套文件</li></ul></div><div class="ib"><h6><b>03</b>影响判断</h6><p>观点很直接：算力从“规模指标”变成“效率指标”后，靠堆卡撑规模的二线智算中心会被挤出，具备并网调度能力与低价电资源的头部平台受益。真正的约束在电力——能拿到长期低价电与并网容量的项目，才谈得上利用率，其余项目会停在“已建成、待上架”。</p></div><div class="ib"><h6><b>04</b>后续观察点</h6><ul><li>配套的算力调度与并网标准何时出台</li><li>四季度是否出现智算中心利用率首次被纳入统计公报</li><li>西部枢纽节点电价与绿电配额政策是否同步落地</li></ul></div><div class="isrc">中央网信委《规划》（L1 政策）· 财联社（L2 转载）　✓ 政策原文与报道印证</div></div></details><div class="fmeta"><span class="src">财联社 · 国家互联网信息办公室</span><span class="dot">·</span><span>2026-10-24</span></div></article><article class="fcard" id="focus-44-e44-0501" data-dir="#d44-5" data-dir-label="网络安全"><div class="fkick"><span>网络安全与后量子密码</span><span class="sep">/</span><span class="type tech">技术</span><span class="sep">/</span><span>基础软件漏洞</span><span class="star" role="img" aria-label="重点">★★★</span></div><h3><a href="https://news.sina.com.cn/gov/2026-10-27/doc-iniwsmws6971649.shtml" target="_blank" rel="noopener noreferrer">PHP 曝出两个 CVSS 9.2 分远程代码执行漏洞，CISA 要求联邦机构 10 月 29 日前修复</a></h3><p class="fsum">CVE-2026-109618 与 CVE-2026-109619 被称为“PHP2Shell”，攻击者无需认证即可在受影响服务器执行任意代码，CISA 已将其列入已遭利用漏洞目录，要求美国联邦机构 10 月 29 日前修复，ENISA 与多国 CERT 同步预警。</p><details class="interp"><summary><span class="ic" aria-hidden="true">i</span><span class="ilabel">事件解读</span><span class="ihint"><span class="ihint-open">展开 4 个要点</span><span class="ihint-close">收起</span><span class="chev">▼</span></span></summary><div class="ibody"><div class="ib"><h6><b>01</b>这项技术是什么</h6><p>先讲清术语：『远程代码执行（RCE）』指攻击者不用登录，就能让服务器替他运行指令；『CVSS 9.2』是漏洞严重度评分（10 分制），9 分以上通常意味着可被直接拿下；『KEV』是美国 CISA 的“已被实际利用”目录，进榜即确认有人在真打；『蜜罐』是故意暴露的假服务器，用来捕捉攻击样本。这次更新的关键在于：漏洞出在 PHP 语言本身而不是某个插件，靠“少装插件”绕不过去。</p></div><div class="ib"><h6><b>02</b>关键数据</h6><ul><li>两个漏洞编号 CVE-2026-109618、CVE-2026-109619，CVSS 4.0 均为 9.2 分</li><li>CISA 给出的修复期限为 2026 年 10 月 29 日，要求同时排查是否已遭入侵</li><li>攻击者无需身份认证即可远程执行任意代码，已有蜜罐捕获成功利用样本</li></ul></div><div class="ib"><h6><b>03</b>为什么重要</h6><p>为什么重要：PHP 支撑着大量中小网站与老旧后台，这类资产“没人管、没人升级”。一旦出现公开利用工具，扫描会在一周内铺开。所以这次考的不是安全团队的响应速度，而是资产清单是否完整——不知道哪些机器在跑 PHP、跑什么版本，就不可能在 72 小时内修完。</p></div><div class="ib"><h6><b>04</b>后续观察点</h6><ul><li>是否出现公开的批量利用工具与蠕虫化传播</li><li>国内云厂商与建站面板是否推送一键修复</li><li>两周内是否出现因该漏洞导致的勒索或数据泄露通报</li></ul></div><div class="isrc">新浪新闻（L2）· IT之家（L2）　✓ CISA KEV 与多国 CERT 预警交叉印证</div></div></details><div class="fmeta"><span class="src">新浪新闻 · IT之家</span><span class="dot">·</span><span>2026-10-27</span></div></article><article class="fcard" id="focus-44-e44-0601" data-dir="#d44-6" data-dir-label="人工智能"><div class="fkick"><span>人工智能与大模型</span><span class="sep">/</span><span class="type tech">技术</span><span class="sep">/</span><span>开源大模型</span><span class="star" role="img" aria-label="重点">★★★</span></div><h3><a href="https://www.toutiao.com/article/7700121004651201039" target="_blank" rel="noopener noreferrer">月之暗面开源 Kimi K3.1 Pro：3 万亿参数、100 万词元上下文，仍是全球最大开源模型</a></h3><p class="fsum">10 月 24 日发布的 Kimi K3.1 Pro 参数规模达 3 万亿级、支持 100 万词元上下文窗口，在代码、3D 创作、金融研究与长程 Agent 能力上明显提升，多项评测综合水平接近领先闭源模型，价格约为对标闭源模型的五分之一。</p><details class="interp"><summary><span class="ic" aria-hidden="true">i</span><span class="ilabel">事件解读</span><span class="ihint"><span class="ihint-open">展开 4 个要点</span><span class="ihint-close">收起</span><span class="chev">▼</span></span></summary><div class="ibody"><div class="ib"><h6><b>01</b>这项技术是什么</h6><p>术语先讲清：『参数』是模型内部的连接权重数量，可粗略理解为知识容量；『MoE（混合专家）』是把大模型拆成许多小专家、每次只调用其中几个，于是参数很大但算得较快；『上下文窗口 100 万词元』指一次能读进几十万到上百万字的长文档；『后训练』是在预训练底座上再练一轮，主要提升听话程度与任务能力。这次更新意味着：开源权重第一次把“超长上下文 + 接近闭源的智能”同时给出，下载即可私有化部署。</p></div><div class="ib"><h6><b>02</b>关键数据</h6><ul><li>参数规模 3 万亿级，上下文窗口 100 万词元</li><li>上一代 Kimi K3 为 2.8 万亿参数，发布于 2026 年 7 月</li><li>价格约为 GPT-6 Astra 的五分之一，综合评测接近领先闭源模型</li></ul></div><div class="ib"><h6><b>03</b>为什么重要</h6><p>为什么重要：3 万亿参数的意义不在榜单，而在于一个开源模型能否同时承担长程 Agent 的规划与执行。如果长上下文在真实任务链上稳定，企业自建 Agent 的成本结构会被重算——推理价格压到闭源的五分之一，足以覆盖私有化部署的运维开销；反过来，若 50 万词元之后明显衰减，这个价格优势就只对短任务成立。</p></div><div class="ib"><h6><b>04</b>后续观察点</h6><ul><li>第三方复现的长上下文有效长度，是否在 50 万词元后明显衰减</li><li>长程 Agent 任务的端到端成功率与失败恢复能力</li><li>开源权重放出后，国内云厂商的托管价格是否跟降</li></ul></div><div class="isrc">中国新闻网（L1 通稿）· 新蓝网（L2）　✓ 参数与价格口径双源印证</div></div></details><div class="fmeta"><span class="src">中国新闻网 · 新蓝网</span><span class="dot">·</span><span>2026-10-24</span></div></article><article class="fcard" id="focus-44-e44-1101" data-dir="#d44-11" data-dir-label="生物医药"><div class="fkick"><span>生物医药与脑机接口</span><span class="sep">/</span><span class="type tech">技术</span><span class="sep">/</span><span>脑机接口</span><span class="star" role="img" aria-label="重点">★★★</span></div><h3><a href="https://news.sciencenet.cn/htmlnews/2026/10/573411.shtm" target="_blank" rel="noopener noreferrer">中国首个植入式听觉神经接口产品获批上市，填补听觉脑机接口空白</a></h3><p class="fsum">10 月 20 日国家药监局批准“听觉脑干植入体”创新产品注册申请，这是国内首创有源 III 类植入器械，也是我国首个在颅内中枢进行电刺激与神经信号提取的产品，适用于 2–6 岁内耳严重畸形或蜗神经缺如患者。</p><details class="interp"><summary><span class="ic" aria-hidden="true">i</span><span class="ilabel">事件解读</span><span class="ihint"><span class="ihint-open">展开 4 个要点</span><span class="ihint-close">收起</span><span class="chev">▼</span></span></summary><div class="ibody"><div class="ib"><h6><b>01</b>这项技术是什么</h6><p>术语拆开看：『植入式』指器械要开刀放进体内；『有源 III 类』是我国器械管理的最高风险等级（III 类）且带电源与电路（有源），审批最严；『脑干耳蜗核』是听觉神经进入大脑后的第一站，相当于听觉信号的交换机；『16 导电极』指 16 个独立刺激点，用来还原不同音高。这次获批意味着：绕过耳朵与听神经、直接在脑干上重建听觉，在国内第一次成为可临床使用的产品。</p></div><div class="ib"><h6><b>02</b>关键数据</h6><ul><li>适用人群为 2–6 岁（不含 6 周岁）语前聋、合并内耳严重畸形或蜗神经缺如的患者</li><li>采用 16 导电极阵列，2019 年立项攻关、2024 年完成全部手术与随访</li><li>开机后 12 个月治疗总有效率达 96.67%</li></ul></div><div class="ib"><h6><b>03</b>为什么重要</h6><p>为什么重要：侵入式脑机接口的第一波商业化不在运动解码，而在“感觉重建”这类无替代方案的刚需适应症——患者基数小、支付意愿强、审批路径清晰。真正的放量约束在手术能力与支付端：能开展该手术的中心数量、能否纳入医保或残疾人康复救助，决定它三年内是示范产品还是标准疗法。</p></div><div class="ib"><h6><b>04</b>后续观察点</h6><ul><li>首批植入中心名单与年手术量</li><li>是否进入医保或残疾人康复救助目录</li><li>开机后 2–3 年的长期稳定性随访数据</li></ul></div><div class="isrc">国家药监局（L1 批准）· 中国科学报（L2）　✓ L1 直接落地</div></div></details><div class="fmeta"><span class="src">国家药品监督管理局 · 中国科学报</span><span class="dot">·</span><span>2026-10-22</span></div></article><article class="fcard" id="focus-44-e44-1501" data-dir="#d44-15" data-dir-label="量子"><div class="fkick"><span>量子科技</span><span class="sep">/</span><span class="type tech">技术</span><span class="sep">/</span><span>量子纠错</span><span class="star" role="img" aria-label="重点">★★★</span></div><h3><a href="https://www.kepuchina.cn/meitongshe?filter=28145&amp;rkey=20261020ZH74926" target="_blank" rel="noopener noreferrer">Quantinuum 在 Helios 上实现 99.9995% 逻辑保真度，错误率降至自身纪录十分之一</a></h3><p class="fsum">Quantinuum 10 月 20 日宣布，其 Helios 商用离子阱计算机通过自研纠错架构实现 99.9995% 逻辑保真度，相当于每 100 万次操作仅 5 次错误，错误率为其 2026 年 9 月纪录的十分之一、其他硬件路线已发表最佳成果的百分之一。</p><details class="interp"><summary><span class="ic" aria-hidden="true">i</span><span class="ilabel">事件解读</span><span class="ihint"><span class="ihint-open">展开 4 个要点</span><span class="ihint-close">收起</span><span class="chev">▼</span></span></summary><div class="ibody"><div class="ib"><h6><b>01</b>这项技术是什么</h6><p>术语先解释：『逻辑比特』是把多个易出错的物理比特编码成一个“不容易错”的比特；『保真度 99.9995%』指每 100 万次操作只错 5 次；『纠错码』是编码规则，不同码适合不同噪声模型；『离子阱』是用电磁场悬住离子、用激光操作的技术路线，精度高但门速度慢。这次更新的关键在于：同一台硬件换不同纠错码都能刷新纪录，说明能力来自纠错架构，而不是一次调优。</p></div><div class="ib"><h6><b>02</b>关键数据</h6><ul><li>逻辑保真度 99.9995%，即每 100 万次操作出现 5 次错误</li><li>错误率降至其 2026 年 9 月自身纪录的 1/10，比其他硬件路线已发表最佳成果低 100 倍</li><li>两项突破在同一台 Helios 硬件上、采用不同纠错码实现</li></ul></div><div class="ib"><h6><b>03</b>为什么重要</h6><p>为什么重要：容错的判据不是物理比特多好，而是逻辑比特能否比物理比特更稳，行业门槛大致在逻辑错误率 10⁻⁶ 量级。若“同一硬件、不同纠错码均可刷新纪录”在更大比特数上依然成立，容错路线的时间表会比业界共识提前；风险在扩展性——离子阱的比特数与门速度天然受限，逻辑比特数上不去，纠错优势就换不来可运行的算法。</p></div><div class="ib"><h6><b>04</b>后续观察点</h6><ul><li>Helios 的逻辑比特数量能否在 2027 年前扩到两位数并保持保真度</li><li>是否公布两比特门错误率与串扰数据</li><li>是否出现第三方在同一硬件上的独立复现</li></ul></div><div class="isrc">Quantinuum（L2 企业公告，英文已译）· 科普中国（L2 转载）　✓ 官方口径与报道印证</div></div></details><div class="fmeta"><span class="src">Quantinuum（美通社） · 科普中国</span><span class="dot">·</span><span>2026-10-20</span><span class="tr">英文源 · 已译</span></div></article><article class="fcard" id="focus-44-e44-1601" data-dir="#d44-16" data-dir-label="新材料"><div class="fkick"><span>新材料与前沿材料</span><span class="sep">/</span><span class="type tech">技术</span><span class="sep">/</span><span>碳纤维</span><span class="star" role="img" aria-label="重点">★★★</span></div><h3><a href="https://news.haiwainet.cn/n/2026/1030/c3541093-32993945.html" target="_blank" rel="noopener noreferrer">中复神鹰 T1200 级碳纤维实现百吨级工程化量产，拉伸强度突破 8000 兆帕</a></h3><p class="fsum">中国建材旗下中复神鹰自主研发的 SYT80（T1200 级）超高强度碳纤维实现百吨级工程化量产，工程拉伸强度突破 8000 兆帕，为全球首款真正实现量产的 T1200 级碳纤维；其连云港基地核心装备国产化率达 95% 以上。</p><details class="interp"><summary><span class="ic" aria-hidden="true">i</span><span class="ilabel">事件解读</span><span class="ihint"><span class="ihint-open">展开 4 个要点</span><span class="ihint-close">收起</span><span class="chev">▼</span></span></summary><div class="ibody"><div class="ib"><h6><b>01</b>这项技术是什么</h6><p>术语先讲明白：碳纤维的『T 级』是按拉伸强度分档的牌号，T300 最低、T1200 是目前量产的最高档；『拉伸强度 8000 兆帕』约等于每平方毫米承受 800 公斤拉力，是普通钢的十倍以上；『原丝』是纺出来的前驱体纤维，『碳化』是把原丝在高温炉里变成碳，温场不均就会留下缺陷；『CV 值』衡量批次一致性，越低越稳。这次更新意味着：最高强度档第一次做到百吨级、可稳定供货，而不只是实验室样品。</p></div><div class="ib"><h6><b>02</b>关键数据</h6><ul><li>工程拉伸强度突破 8000 兆帕，属 T1200 级</li><li>实现百吨级工程化量产，为全球首款量产 T1200 级产品</li><li>连云港基地核心装备国产化率达 95% 以上</li></ul></div><div class="ib"><h6><b>03</b>为什么重要</h6><p>为什么重要：材料突破的商业价值由下游认证周期决定，不由强度指标决定。航空航天认证通常要 3–5 年，短期能消化新增产能的是风电叶片、低空飞行器与体育器材；所以 2027–2028 年真正要看的是百吨级产线的批次一致性（CV 值），而不是又一条更高的强度纪录。</p></div><div class="ib"><h6><b>04</b>后续观察点</h6><ul><li>是否公布批次一致性（CV 值）与百吨级连续运行数据</li><li>航空航天与压力容器客户的材料认证进度</li><li>与进口 T1100 级产品的价差与替代节奏</li></ul></div><div class="isrc">人民日报海外版（L2 权威媒体）　△ 单一来源，待第二源印证</div></div></details><div class="fmeta"><span class="src">人民日报海外版</span><span class="dot">·</span><span>2026-10-30</span></div></article><article class="fcard" id="focus-44-e44-0101" data-dir="#d44-1" data-dir-label="半导体"><div class="fkick"><span>集成电路与半导体</span><span class="sep">/</span><span class="type industry">产业</span><span class="sep">/</span><span>存储与HBM</span><span class="star" role="img" aria-label="重点">★★★</span></div><h3><a href="https://m.koreaherald.com/article/10919169" target="_blank" rel="noopener noreferrer">三星电子 Q3 营业利润首破 100 万亿韩元，HBM4 收入环比增三倍、2027 年产能售罄</a></h3><p class="fsum">三星 10 月 29 日披露三季度营收 195.25 万亿韩元、营业利润 107.44 万亿韩元，HBM4 收入环比增长三倍以上、2027 年 HBM 供货已按目标价售罄，2 纳米代工订单量同比翻倍。</p><details class="interp"><summary><span class="ic" aria-hidden="true">i</span><span class="ilabel">事件解读</span><span class="ihint"><span class="ihint-open">展开 4 个要点</span><span class="ihint-close">收起</span><span class="chev">▼</span></span></summary><div class="ibody"><div class="ib"><h6><b>01</b>事件与格局</h6><p>三星把 AI 存储的钱一次性赚回来了：三季度营业利润 107.44 万亿韩元，其中半导体（DS）部门营业利润 106.5 万亿韩元、营收 147.1 万亿韩元。更关键的是格局变化——HBM4 收入环比增三倍、已占 HBM 收入六成以上，三星从 HBM3E 时代的追赶者回到并列者；2027 年 HBM 产能按目标价全部售罄，等于把明年的定价权提前锁死。</p></div><div class="ib"><h6><b>02</b>关键数据</h6><ul><li>三季度营收 195.25 万亿韩元，同比 +126.9%；营业利润 107.44 万亿韩元，同比 +783.1%</li><li>HBM4 收入环比增长三倍以上，已占 HBM 收入的六成以上</li><li>2027 年 HBM 供货已按目标价格完成谈判，相关产能全部售罄</li><li>2 纳米代工订单量同比增长超过一倍</li></ul></div><div class="ib"><h6><b>03</b>影响判断</h6><p>结论明确：2027 年的 HBM 供给已被提前锁死，价格谈判窗口对下游关闭，AI 加速卡的 BOM 成本在明年难以下降。真正的变量转移到客户端——云厂商是否愿意接受“长约换配额”，以及 HBM4E 的切换节奏会不会让今年的长约在一年内贬值。</p></div><div class="ib"><h6><b>04</b>后续观察点</h6><ul><li>四季度 DRAM 出货环比增速是否兑现 15%–20% 的指引</li><li>HBM4 占 HBM 收入比重能否在 2027 上半年维持六成以上</li><li>2 纳米代工订单翻倍后，泰勒厂月产 2 万片的爬坡是否按期</li><li>是否出现第二家客户要求重谈长期合约价格</li></ul></div><div class="isrc">The Korea Herald（L2，英文已译）· 韩国今日亚洲（L2）　✓ 财报与电话会口径双源印证</div></div></details><div class="fmeta"><span class="src">The Korea Herald · 韩国今日亚洲（韩联社）</span><span class="dot">·</span><span>2026-10-29</span><span class="tr">英文源 · 已译</span></div></article><article class="fcard" id="focus-44-e44-0102" data-dir="#d44-1" data-dir-label="半导体"><div class="fkick"><span>集成电路与半导体</span><span class="sep">/</span><span class="type capital">资本</span><span class="sep">/</span><span>先进封装</span><span class="star" role="img" aria-label="重点">★★★</span></div><h3><a href="https://www.cna.com.tw/news/afe/202610290197.aspx" target="_blank" rel="noopener noreferrer">台积电 388 亿新台币买下友达台中九处厂房，先进封装扩产改走“买旧厂”</a></h3><p class="fsum">10 月 29 日台积电公告以 388 亿元新台币（约 12 亿美元）取得友达台中二期厂房及厂务设施，权状面积约 12.98 万坪、使用面积约 16.6 万坪，友达预计处分利益约 185 亿元新台币。</p><details class="interp"><summary><span class="ic" aria-hidden="true">i</span><span class="ilabel">事件解读</span><span class="ihint"><span class="ihint-open">展开 4 个要点</span><span class="ihint-close">收起</span><span class="chev">▼</span></span></summary><div class="ibody"><div class="ib"><h6><b>01</b>交易与主体</h6><p>交易双方：台积电（买方）与友达光电（卖方）。标的为友达台中市西屯区 9 笔建号厂房及相关厂务附属设施，权状面积约 12.98 万坪、使用面积约 16.6 万坪；交易金额 388 亿元新台币、约 12 亿美元，10 月 29 日双方同日公告，台积电仅表示“供营运与生产使用”，未回应是否建先进封装厂。</p></div><div class="ib"><h6><b>02</b>关键数据</h6><ul><li>交易总金额约 388 亿元新台币，约合 12 亿美元</li><li>取得友达台中市西屯区 9 笔建号厂房，权状面积约 12.98 万坪、使用面积约 16.6 万坪</li><li>友达预计处分利益约 185 亿元新台币，为其今年最大一笔资产处置</li></ul></div><div class="ib"><h6><b>03</b>影响判断</h6><p>这笔交易的真实含义是：先进封装的扩张速度被厂房与电力卡住，而不是被设备卡住。对台积电是抢时间，对友达是轻资产化，对设备与厂务供应链则是新一轮改造订单。值得警惕的是，面板厂改造为 CoWoS 产线需要重做洁净度与振动控制，改造周期与良率爬坡仍是隐性成本。</p></div><div class="ib"><h6><b>04</b>后续观察点</h6><ul><li>台积电是否公开该厂区用于 CoWoS-L 或 CoPoS 的具体规划</li><li>改造投产时间点，以及是否影响 2027 年 CoWoS 月产能目标</li><li>友达处分利益入账后，是否继续处置其他世代产线</li></ul></div><div class="isrc">中央社（L1 交易所公告转述）· 电子工程专辑（L2）　✓ 双方同日公告印证</div></div></details><div class="fmeta"><span class="src">中央社 · 电子工程专辑</span><span class="dot">·</span><span>2026-10-29</span></div></article></section>
+    <div class="secbar"><h2>分方向正文</h2>
+      <span>16 个方向 · 按编号排列 · 点顶部标签可跳转</span></div>
+    <section class="domain" id="d44-1" style="--c:#1d4ed8" data-short="半导体"><header class="dhead"><span class="dnum">01</span><div class="dtxt"><h3>集成电路与半导体</h3><p class="dsub"><span class="sub">先进制程 · 先进封装 · 第三代/第四代半导体 · EDA · 设备与材料 · RISC-V</span><span class="comma">，</span><span class="fq">周度更新</span><span class="dot">·</span>来源 7 个</p></div><span class="dcnt"><b>5</b>条</span></header><article class="entry ref" id="e44-0101"><div class="ekick"><span class="type industry">产业</span><span class="star" role="img" aria-label="重点">★★★</span><span class="reftag">重点</span></div><h4><a href="#focus-44-e44-0101">三星电子 Q3 营业利润首破 100 万亿韩元，HBM4 收入环比增三倍、2027 年产能售罄</a></h4><p class="refnote"><span class="arrow">→</span>完整摘要与事件解读见「本期重点」</p></article><article class="entry ref" id="e44-0102"><div class="ekick"><span class="type capital">资本</span><span class="star" role="img" aria-label="重点">★★★</span><span class="reftag">重点</span></div><h4><a href="#focus-44-e44-0102">台积电 388 亿新台币买下友达台中九处厂房，先进封装扩产改走“买旧厂”</a></h4><p class="refnote"><span class="arrow">→</span>完整摘要与事件解读见「本期重点」</p></article><article class="entry" id="e44-0103"><div class="ekick"><span class="type industry">产业</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://news.qq.com/rain/a/20261027A04VOX00" target="_blank" rel="noopener noreferrer">硅片三年多来首次全线涨价，12 英寸月缺口约 150 万片</a></h4><p class="esum">集微咨询报告显示 2026 年上半年 7 家 A 股硅片公司合计营收约 105.14 亿元、同比增长约 18.9%，12 英寸硅片月缺口约 150 万片，行业进入三年多来首次全线涨价周期。</p><div class="emeta"><span class="src">腾讯新闻</span><span class="dot">·</span><span>2026-10-27</span><span class="dot">·</span><span>硅片</span></div></article><article class="entry" id="e44-0104"><div class="ekick"><span class="type tech">技术</span><span class="star" role="img" aria-label="常规留意">★</span></div><h4><a href="https://finance.sina.com.cn/roll/2026-10-26/doc-iniwqarn2451155.shtml" target="_blank" rel="noopener noreferrer">英特尔 CTO：先进制程产能短期扩十倍不现实，两倍才是产业可承受节奏</a></h4><p class="esum">英特尔首席技术官 Pushkar Ranade 表示，受 EUV 光刻、刻蚀与薄膜沉积设备供给节奏约束，先进制程晶圆产能短期扩大十倍不具备可行性，约两倍更符合产业实际。</p><div class="emeta"><span class="src">新浪财经</span><span class="dot">·</span><span>2026-10-26</span><span class="dot">·</span><span>先进制程</span></div></article><article class="entry" id="e44-0105"><div class="ekick"><span class="type capital">资本</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://www.toutiao.com/article/7699722706111791652" target="_blank" rel="noopener noreferrer">三星泰勒 1 厂追加 2nm 设备投资，目标 2027 年下半年月产 2 万片</a></h4><p class="esum">三星电子已启动美国得州泰勒 1 厂后续设备投资，新订购可对应 2nm 月产 6000 片晶圆的设备；叠加此前月产 1 万片规模投资与试点产线产能，目标 2027 年下半年实现月产 2 万片 2nm 产能。</p><div class="emeta"><span class="src">CNMO 科技</span><span class="dot">·</span><span>2026-10-23</span><span class="dot">·</span><span>海外产能</span></div></article></section><section class="domain" id="d44-2" style="--c:#b45309" data-short="工业母机"><header class="dhead"><span class="dnum">02</span><div class="dtxt"><h3>工业母机与工业软件</h3><p class="dsub"><span class="sub">高端数控系统 · CAE/CAD/CAM/PLM · 工业操作系统 · 数字孪生 · 核心部件</span><span class="comma">，</span><span class="fq">周度更新</span><span class="dot">·</span>来源 4 个</p></div><span class="dcnt"><b>3</b>条</span></header><article class="entry ref" id="e44-0201"><div class="ekick"><span class="type policy">政策</span><span class="star" role="img" aria-label="重点">★★★</span><span class="reftag">重点</span></div><h4><a href="#focus-44-e44-0201">中办、国办发文推动科技创新与产业创新融合，点名工业母机等五领域攻关“决定性突破”</a></h4><p class="refnote"><span class="arrow">→</span>完整摘要与事件解读见「本期重点」</p></article><article class="entry" id="e44-0202"><div class="ekick"><span class="type policy">政策</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://www.toutiao.com/article/7699560553777234482" target="_blank" rel="noopener noreferrer">工信部等八部门发布《产业基础能力提升“十五五”规划》，支持企业牵头攻关</a></h4><p class="esum">10 月 22 日工信部等八部门发布《产业基础能力提升“十五五”规划》，提出强化企业科技创新主体地位，支持企业深度参与国家科技攻关项目与技术路线制定，补齐基础零部件、基础软件与基础材料短板。</p><div class="emeta"><span class="src">证券日报</span><span class="dot">·</span><span>2026-10-23</span><span class="dot">·</span><span>产业基础</span></div></article><article class="entry" id="e44-0203"><div class="ekick"><span class="type policy">政策</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://view.inews.qq.com/a/20261029A036EW00" target="_blank" rel="noopener noreferrer">上海首次把工业母机定位为“物理 AI 装备”，点名超精密磨床与大型五轴机床</a></h4><p class="esum">10 月 27 日上海发布《加快发展新一代智能制造行动方案》，将工业母机与机器人、检测装备并列为“物理 AI 装备”，提出加快 AI 赋能的超精密磨床、大型五轴机床、高速双五轴镜像铣迭代升级。</p><div class="emeta"><span class="src">腾讯新闻</span><span class="dot">·</span><span>2026-10-29</span><span class="dot">·</span><span>地方政策</span></div></article></section><section class="domain" id="d44-3" style="--c:#0e7490" data-short="算力"><header class="dhead"><span class="dnum">03</span><div class="dtxt"><h3>算力基础设施与云网融合</h3><p class="dsub"><span class="sub">一体化算力网 · 智算中心 · 边缘计算 · 800G/1.6T 光模块 · 硅光/CPO · 空芯光纤</span><span class="comma">，</span><span class="fq">周度更新</span><span class="dot">·</span>来源 4 个</p></div><span class="dcnt"><b>3</b>条</span></header><article class="entry ref" id="e44-0301"><div class="ekick"><span class="type policy">政策</span><span class="star" role="img" aria-label="重点">★★★</span><span class="reftag">重点</span></div><h4><a href="#focus-44-e44-0301">《国家信息化“十五五”规划》印发，明确加快构建全国一体化算力网</a></h4><p class="refnote"><span class="arrow">→</span>完整摘要与事件解读见「本期重点」</p></article><article class="entry" id="e44-0302"><div class="ekick"><span class="type industry">产业</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://static.cninfo.com.cn/finalpage/2026-10-23/1225617676.pdf" target="_blank" rel="noopener noreferrer">新易盛：1.6T 光模块进入持续放量阶段，800G 与 1.6T 为今年交付主力</a></h4><p class="esum">新易盛 10 月 23 日自愿披露公告称在手订单充足，1.6T 光模块已进入持续放量阶段、出货节奏将加快；同期中际旭创、天孚通信亦回应交付正常，CPO 配套 FAU/ELS 已具备较好交付基础。</p><div class="emeta"><span class="src">巨潮资讯 · 证券时报</span><span class="dot">·</span><span>2026-10-23</span><span class="dot">·</span><span>光模块</span></div></article><article class="entry" id="e44-0303"><div class="ekick"><span class="type industry">产业</span><span class="star" role="img" aria-label="常规留意">★</span></div><h4><a href="https://www.toutiao.com/article/7699488100669587978" target="_blank" rel="noopener noreferrer">天孚通信：CPO 配套 FAU、ELS 已具备较好交付基础，NPO 配套仍在样品阶段</a></h4><p class="esum">天孚通信在投资者关系活动记录中披露，为 CPO 技术路线配套的 FAU、ELS 等产品在性能、良率及交付保障方面已具备较好基础并将按客户需求提产，NPO 相关配套产品仍处于样品阶段，CPO/NPO 提产节奏近期未明显变化。</p><div class="emeta"><span class="src">证券时报</span><span class="dot">·</span><span>2026-10-22</span><span class="dot">·</span><span>CPO</span></div></article></section><section class="domain" id="d44-4" style="--c:#6d28d9" data-short="6G"><header class="dhead"><span class="dnum">04</span><div class="dtxt"><h3>6G 与星地融合通信</h3><p class="dsub"><span class="sub">6G 关键技术试验 · 星地融合 · 手机直连卫星 · 太赫兹/智能超表面</span><span class="comma">，</span><span class="fq">双周更新</span><span class="dot">·</span>来源 1 个</p></div><span class="dcnt"><b>2</b>条</span></header><article class="entry" id="e44-0401"><div class="ekick"><span class="type industry">产业</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://new.qq.com/rain/a/20261026A03O6E00" target="_blank" rel="noopener noreferrer">华为 Mate X6 典藏版将支持低轨卫星通信，手机直连进入“三网并行”</a></h4><p class="esum">华为宣布 Mate X6 典藏版将率先支持低轨卫星通信，与北斗短报文、天通语音形成“短报文—语音—数据”分层覆盖，卫星通信首次作为基础通信能力进入大众旗舰机型。</p><div class="emeta"><span class="src">腾讯新闻</span><span class="dot">·</span><span>2026-10-26</span><span class="dot">·</span><span>手机直连卫星</span></div></article><article class="entry" id="e44-0402"><div class="ekick"><span class="type tech">技术</span><span class="star" role="img" aria-label="常规留意">★</span></div><h4><a href="https://new.qq.com/rain/a/20261023A072ZI00" target="_blank" rel="noopener noreferrer">中国信科陈山枝：卫星互联网竞争焦点转向宽带手机直连，5G NTN 是主线</a></h4><p class="esum">陈山枝在 10 月专访中判断，全球卫星互联网正从 Ku/Ka 宽带接入升级到宽带手机直连阶段，技术路线指向 5G NTN，未来三年竞争集中在手机直连的容量与成本。</p><div class="emeta"><span class="src">腾讯新闻</span><span class="dot">·</span><span>2026-10-23</span><span class="dot">·</span><span>5G NTN</span></div></article></section><section class="domain" id="d44-5" style="--c:#be123c" data-short="网络安全"><header class="dhead"><span class="dnum">05</span><div class="dtxt"><h3>网络安全与后量子密码</h3><p class="dsub"><span class="sub">后量子密码迁移 · 隐私计算 · 零信任 · AI 安全</span><span class="comma">，</span><span class="fq">双周更新</span><span class="dot">·</span>来源 4 个</p></div><span class="dcnt"><b>3</b>条</span></header><article class="entry ref" id="e44-0501"><div class="ekick"><span class="type tech">技术</span><span class="star" role="img" aria-label="重点">★★★</span><span class="reftag">重点</span></div><h4><a href="#focus-44-e44-0501">PHP 曝出两个 CVSS 9.2 分远程代码执行漏洞，CISA 要求联邦机构 10 月 29 日前修复</a></h4><p class="refnote"><span class="arrow">→</span>完整摘要与事件解读见「本期重点」</p></article><article class="entry" id="e44-0502"><div class="ekick"><span class="type policy">政策</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://www.toutiao.com/article/7701273232887906850" target="_blank" rel="noopener noreferrer">84 款 App 因违规收集个人信息被通报，45 款未完整列明收集情况</a></h4><p class="esum">10 月 26 日国家网络安全通报中心通报 84 款移动应用存在违法违规收集使用个人信息问题，其中未完整准确列明收集使用情况 45 款、隐私政策不清晰 16 款、未采取有效安全技术措施防止数据泄露 12 款，涉东方甄选、国信证券等。</p><div class="emeta"><span class="src">国家互联网信息办公室</span><span class="dot">·</span><span>2026-10-27</span><span class="dot">·</span><span>个人信息保护</span></div></article><article class="entry" id="e44-0503"><div class="ekick"><span class="type policy">政策</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://www.sitg-consulting.com/post/omb-m26-15-deadline-ietf-constrained-pqc-mas-uk-etsi-enisa-estonia" target="_blank" rel="noopener noreferrer">美国联邦机构 PQC 迁移计划 10 月 22 日截止，2030 年底前完成高风险系统改造</a></h4><p class="esum">OMB 第 M-26-15 号备忘录要求各联邦机构在 120 天内（2026 年 10 月 22 日前）提交后量子密码迁移计划，2030 年底前完成高风险系统 PQC 密钥交换改造、2031 年底前完成 PQC 数字签名改造。</p><div class="emeta"><span class="src">PQC Governance Digest</span><span class="dot">·</span><span>2026-10-23</span><span class="dot">·</span><span>后量子迁移</span><span class="tr">英文源 · 已译</span></div></article></section><section class="domain" id="d44-6" style="--c:#2563eb" data-short="人工智能"><header class="dhead"><span class="dnum">06</span><div class="dtxt"><h3>人工智能与大模型</h3><p class="dsub"><span class="sub">基础大模型 · AI Agent · 世界模型 · AI for Science · 模型安全与对齐 · 多模态/推理模型</span><span class="comma">，</span><span class="fq">周度更新</span><span class="dot">·</span>来源 5 个</p></div><span class="dcnt"><b>3</b>条</span></header><article class="entry ref" id="e44-0601"><div class="ekick"><span class="type tech">技术</span><span class="star" role="img" aria-label="重点">★★★</span><span class="reftag">重点</span></div><h4><a href="#focus-44-e44-0601">月之暗面开源 Kimi K3.1 Pro：3 万亿参数、100 万词元上下文，仍是全球最大开源模型</a></h4><p class="refnote"><span class="arrow">→</span>完整摘要与事件解读见「本期重点」</p></article><article class="entry" id="e44-0602"><div class="ekick"><span class="type tech">技术</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://k.sina.com.cn/article_5044281310_12ca99fde02002lksm.html" target="_blank" rel="noopener noreferrer">扩散智能开源 350 亿参数 dLLM：激活仅 30 亿，生成速度最高提升 10 倍</a></h4><p class="esum">10 月 28 日扩散智能发布并开源 Clover-35B-A3B-Preview，采用 MoE 架构、总参数 350 亿、激活参数 30 亿，在智能体编程任务上超过同尺寸自回归模型 Qwen3.6-35B-A3B，部分场景生成速度为其 5–10 倍。</p><div class="emeta"><span class="src">澎湃新闻 · 证券时报</span><span class="dot">·</span><span>2026-10-28</span><span class="dot">·</span><span>扩散语言模型</span></div></article><article class="entry" id="e44-0603"><div class="ekick"><span class="type tech">技术</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://arxiv.org/abs/2610.24628" target="_blank" rel="noopener noreferrer">Meta 超智能实验室开源 30B 端侧智能体模型，4-bit 量化可单卡本地运行</a></h4><p class="esum">arXiv 10 月 17 日提交、23 日更新的 Muse Glimmer 30B 为 Apache 2.0 开源模型，内置感知编码器，将多步推理、工具调用与失败恢复集成到单一模型，约 4-bit 量化后可在消费级硬件上本地运行。</p><div class="emeta"><span class="src">arXiv</span><span class="dot">·</span><span>2026-10-23</span><span class="dot">·</span><span>端侧智能体</span><span class="tr">英文源 · 已译</span></div></article></section><section class="domain" id="d44-7" style="--c:#15803d" data-short="机器人"><header class="dhead"><span class="dnum">07</span><div class="dtxt"><h3>具身智能与机器人</h3><p class="dsub"><span class="sub">人形机器人 · 灵巧操作 · 具身基础模型 · 运动控制与核心零部件</span><span class="comma">，</span><span class="fq">周度更新</span><span class="dot">·</span>来源 3 个</p></div><span class="dcnt"><b>3</b>条</span></header><article class="entry" id="e44-0701"><div class="ekick"><span class="type industry">产业</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://www.cnstock.com/commonDetail/806452" target="_blank" rel="noopener noreferrer">智元 10 月 29 日发布部署态本体与基座模型，9 月第 2 万台通用机器人下线</a></h4><p class="esum">2026 智元创新日 10 月 29 日在上海举行，围绕“部署态”发布面向量产的本体与部件、从运动控制走向空间移动智能的基座模型，以及数据—模型—本体—场景的数据飞轮体系；此前 9 月其第 20000 台通用机器人已下线。</p><div class="emeta"><span class="src">中国证券网</span><span class="dot">·</span><span>2026-10-22</span><span class="dot">·</span><span>人形机器人</span></div></article><article class="entry" id="e44-0702"><div class="ekick"><span class="type capital">资本</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://www.163.com/dy/article/LA6SGQEB0550B1DU.html" target="_blank" rel="noopener noreferrer">中科慧灵完成数亿元 A++ 轮融资，资金投向人形机器人量产与具身大脑</a></h4><p class="esum">中科慧灵 10 月完成数亿元人民币 A++ 轮融资，由知来投资、涌铧投资、茂天投资、元禾辰坤等联合投资，资金用于产品量产交付、关键场景具身大脑迭代与市场拓展；其制鞋机器人已规模化落地，在手订单超 4 亿元。</p><div class="emeta"><span class="src">财联社</span><span class="dot">·</span><span>2026-10-26</span><span class="dot">·</span><span>人形机器人</span></div></article><article class="entry" id="e44-0703"><div class="ekick"><span class="type industry">产业</span><span class="star" role="img" aria-label="常规留意">★</span></div><h4><a href="https://www.cfi.cn/p20261027001584.html" target="_blank" rel="noopener noreferrer">特斯拉 Optimus 弗里蒙特产线进入初期爬坡，对外交付目标定在 2027 年底</a></h4><p class="esum">机构调研信息显示，特斯拉 Optimus 弗里蒙特产线已进入初期爬坡阶段，对外交付目标为 2027 年底；同期宇树科技验证通用模型驱动机器人任务执行，Agile Robots 联合英伟达推出研究级平台。</p><div class="emeta"><span class="src">中财网</span><span class="dot">·</span><span>2026-10-27</span><span class="dot">·</span><span>量产爬坡</span></div></article></section><section class="domain" id="d44-8" style="--c:#c2410c" data-short="智驾"><header class="dhead"><span class="dnum">08</span><div class="dtxt"><h3>智能驾驶与自动驾驶</h3><p class="dsub"><span class="sub">L3+ 自动驾驶 · 车路云一体化 · 端到端 · 智驾芯片与传感器</span><span class="comma">，</span><span class="fq">周度更新</span><span class="dot">·</span>来源 2 个</p></div><span class="dcnt"><b>2</b>条</span></header><article class="entry" id="e44-0801"><div class="ekick"><span class="type policy">政策</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://www.jjckb.cn/20261021/03a031f5bfb84d98a9fd23404d60f697/c.html" target="_blank" rel="noopener noreferrer">工信部：乘用车 L2 组合辅助驾驶搭载率超 70%，自动驾驶测试里程突破 2.2 亿公里</a></h4><p class="esum">10 月 21 日世界智能网联汽车大会披露，我国乘用车新车 L2 级组合驾驶辅助功能搭载率超过 70%，首批 L3 级车型已在特定区域上路试点，全国开放测试示范道路 5.7 万公里、部署智能化设备 6 万余套、累计测试里程突破 2.2 亿公里。</p><div class="emeta"><span class="src">经济参考报</span><span class="dot">·</span><span>2026-10-21</span><span class="dot">·</span><span>智驾准入</span></div></article><article class="entry" id="e44-0802"><div class="ekick"><span class="type industry">产业</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://www.cet.com.cn/qcpd/10626552.shtml" target="_blank" rel="noopener noreferrer">北汽元境智行 L3 在北京进入常态化试点，享界 G9 拿到 120km/h 高速 L3 测试牌照</a></h4><p class="esum">2026 世界智能网联汽车大会上，北汽元境智行 L3 级自动驾驶已在北京开展常态化试点运营；享界 G9 按 L3 架构开发，2026 年 7 月取得北京市最高 120km/h 高速 L3 道路测试牌照，长安、蔚来、岚图等亦展出 L3 车型。</p><div class="emeta"><span class="src">中国经济新闻网</span><span class="dot">·</span><span>2026-10-23</span><span class="dot">·</span><span>L3 量产</span></div></article></section><section class="domain" id="d44-9" style="--c:#1e3a8a" data-short="航天"><header class="dhead"><span class="dnum">09</span><div class="dtxt"><h3>航空航天与商业航天</h3><p class="dsub"><span class="sub">可复用火箭 · 卫星批产 · 星上智能处理 · 深空探测 · 商业发射</span><span class="comma">，</span><span class="fq">周度更新</span><span class="dot">·</span>来源 3 个</p></div><span class="dcnt"><b>3</b>条</span></header><article class="entry" id="e44-0901"><div class="ekick"><span class="type industry">产业</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://wap.miit.gov.cn/xwfb/gxdt/sjdt/art/2026/art_b5402cdeee5446e4b3f10720c793164d.html" target="_blank" rel="noopener noreferrer">我国成功发射卫星互联网低轨 28 组卫星，长八甲在海南商业航天发射场完成组网任务</a></h4><p class="esum">10 月 25 日，我国在海南商业航天发射场使用长征八号甲运载火箭成功发射卫星互联网低轨 28 组卫星，卫星顺利进入预定轨道；工信部前期完成相关卫星国内频率协调，并批量颁发空间无线电台执照与无线电频率使用许可。</p><div class="emeta"><span class="src">工业和信息化部</span><span class="dot">·</span><span>2026-10-25</span><span class="dot">·</span><span>卫星互联网</span></div></article><article class="entry" id="e44-0902"><div class="ekick"><span class="type industry">产业</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://www.thepaper.cn/newsDetail_forward_34299447" target="_blank" rel="noopener noreferrer">谷神星一号海射型第 7 次海上发射成功，全球首个低倾角遥感星座首发星入轨</a></h4><p class="esum">10 月 21 日 11 时 42 分，星河动力谷神星一号海射型（遥八）在山东日照近海发射，将“西光肆号 01 星”送入 541 公里近地轨道，该星为全球首个低倾角遥感星座“五羊星座”先导星；本次首次采用“陆地指挥、海上发射”模式。</p><div class="emeta"><span class="src">澎湃新闻</span><span class="dot">·</span><span>2026-10-21</span><span class="dot">·</span><span>海上发射</span></div></article><article class="entry" id="e44-0903"><div class="ekick"><span class="type industry">产业</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://kfqgw.beijing.gov.cn/ywdt/gzdt/202610/t20261026_4918774.html" target="_blank" rel="noopener noreferrer">北京亦庄 2026 年“亦庄箭”发射 27 次，超我国全年发射总量三分之一</a></h4><p class="esum">随着 10 月 25 日长征八号甲遥十二升空，“亦庄箭”2026 年成功发射次数已达 27 次，超过我国今年火箭发射总量的三分之一、并超越其 2025 年全年总数，累计 29 颗“亦庄星”成功入轨。</p><div class="emeta"><span class="src">北京经济技术开发区</span><span class="dot">·</span><span>2026-10-26</span><span class="dot">·</span><span>产业集群</span></div></article></section><section class="domain" id="d44-10" style="--c:#0f766e" data-short="低空"><header class="dhead"><span class="dnum">10</span><div class="dtxt"><h3>低空经济与 eVTOL</h3><p class="dsub"><span class="sub">eVTOL 适航与商业化 · 低空基础设施 · 无人机物流 · 空域管理</span><span class="comma">，</span><span class="fq">双周更新</span><span class="dot">·</span>来源 3 个</p></div><span class="dcnt"><b>3</b>条</span></header><article class="entry" id="e44-1001"><div class="ekick"><span class="type industry">产业</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://new.qq.com/rain/a/20261029A0AHCO00" target="_blank" rel="noopener noreferrer">川航低空采购 50 台沃兰特 VE25-100 客运 eVTOL，省级低空平台首次大规模介入</a></h4><p class="esum">在自贡低空经济产业发展大会上，四川航空集团低空经济投资管理公司与沃兰特航空签署采购协议，采购 50 台 VE25-100“天行”客运 eVTOL（含意向订单），是省级低空投资平台首次大规模介入载人 eVTOL 采购。</p><div class="emeta"><span class="src">腾讯新闻</span><span class="dot">·</span><span>2026-10-29</span><span class="dot">·</span><span>载人eVTOL</span></div></article><article class="entry" id="e44-1002"><div class="ekick"><span class="type industry">产业</span><span class="star" role="img" aria-label="常规留意">★</span></div><h4><a href="https://yuanxiangsky.com/N/2194.html" target="_blank" rel="noopener noreferrer">沃飞长空郭亮：载人 eVTOL 走到商业化“最后一步”，缺的是运行规则与公众信任</a></h4><p class="esum">10 月 22 日《财富》中国 500 强论坛上，沃飞长空郭亮表示公司正走向商业化的最后一步；AE200 下线证明制造能力，但从“造出来”到“有人买票”仍取决于运行规则闭环与公众对安全水平的接受度。</p><div class="emeta"><span class="src">圆象低空产业观察</span><span class="dot">·</span><span>2026-10-22</span><span class="dot">·</span><span>商业化</span></div></article><article class="entry" id="e44-1003"><div class="ekick"><span class="type industry">产业</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://www.163.com/dy/article/LA5JBS6H05503O4L.html" target="_blank" rel="noopener noreferrer">小鹏汇天向阿联酋交付首架“陆地航母”试验机，进入监管沙盒试运行</a></h4><p class="esum">10 月 20 日阿联酋拉斯海玛酋长到访小鹏汇天广州量产工厂，为首架投入阿联酋先进低空飞行监管示范区的“陆地航母”飞行器（X3-F）下线揭幕并接收试验机，后续将在阿联酋民航局监管下开展沙盒试运行。</p><div class="emeta"><span class="src">低空经济行业资讯周报</span><span class="dot">·</span><span>2026-10-27</span><span class="dot">·</span><span>海外监管沙盒</span></div></article></section><section class="domain" id="d44-11" style="--c:#9d174d" data-short="生物医药"><header class="dhead"><span class="dnum">11</span><div class="dtxt"><h3>生物医药与脑机接口</h3><p class="dsub"><span class="sub">创新药 · 高端医疗器械 · 脑机接口 · mRNA 疫苗 · 基因与细胞治疗</span><span class="comma">，</span><span class="fq">周度更新</span><span class="dot">·</span>来源 4 个</p></div><span class="dcnt"><b>2</b>条</span></header><article class="entry ref" id="e44-1101"><div class="ekick"><span class="type tech">技术</span><span class="star" role="img" aria-label="重点">★★★</span><span class="reftag">重点</span></div><h4><a href="#focus-44-e44-1101">中国首个植入式听觉神经接口产品获批上市，填补听觉脑机接口空白</a></h4><p class="refnote"><span class="arrow">→</span>完整摘要与事件解读见「本期重点」</p></article><article class="entry" id="e44-1102"><div class="ekick"><span class="type capital">资本</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="http://www.zqrb.cn/gscy/gongsi/2026-10-27/A1793000661225.html" target="_blank" rel="noopener noreferrer">药明康德前三季度净利增逾六成，TIDES 收入 115.2 亿元、在手订单 767.4 亿元</a></h4><p class="esum">药明康德 10 月 26 日发布三季报：前三季度营收 455.37 亿元、归母净利润 193.98 亿元，多肽与寡核苷酸（TIDES）业务收入 115.2 亿元、同比增长 46.9%，在手订单 767.4 亿元、同比增长 36.4%，全年营收指引上调至 610–619 亿元。</p><div class="emeta"><span class="src">证券日报网 · 澎湃新闻</span><span class="dot">·</span><span>2026-10-27</span><span class="dot">·</span><span>CXO</span></div></article></section><section class="domain" id="d44-12" style="--c:#4d7c0f" data-short="生物制造"><header class="dhead"><span class="dnum">12</span><div class="dtxt"><h3>生物制造</h3><p class="dsub"><span class="sub">合成生物学 · AI 蛋白质与菌株设计 · 精准发酵 · 生物基材料</span><span class="comma">，</span><span class="fq">周度更新</span><span class="dot">·</span>来源 2 个</p></div><span class="dcnt"><b>2</b>条</span></header><article class="entry" id="e44-1201"><div class="ekick"><span class="type industry">产业</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://www.toutiao.com/article/7701667800808456719" target="_blank" rel="noopener noreferrer">绵阳合成生物企业新发酵产线投产，麦角硫因、玻色因产能翻倍至千吨级</a></h4><p class="esum">10 月 27 日绵阳晟氏健康科技总投资 3000 多万元的新发酵产线正式投产，三台 60 吨级发酵罐投用，抗衰原料麦角硫因、玻色因总产能达千吨以上、较原有产能翻倍，公司向全年产值 2.5 亿元、同比增长约 40% 的目标冲刺。</p><div class="emeta"><span class="src">涪江观察</span><span class="dot">·</span><span>2026-10-28</span><span class="dot">·</span><span>精准发酵</span></div></article><article class="entry" id="e44-1202"><div class="ekick"><span class="type industry">产业</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://news.qq.com/rain/a/20261020A0BKP400" target="_blank" rel="noopener noreferrer">2026 生物制造大赛复赛收官，108 个项目晋级、产业基金已投 7.52 亿元</a></h4><p class="esum">2026 生物制造大赛复赛收官，108 个项目晋级 11 月初在天津武清举行的决赛；超 15 亿元战略性产业基金已推动 12 家企业获得 7.52 亿元投资，两家参赛企业入选工信部第一批生物制造中试能力建设平台。</p><div class="emeta"><span class="src">腾讯新闻</span><span class="dot">·</span><span>2026-10-20</span><span class="dot">·</span><span>中试与转化</span></div></article></section><section class="domain" id="d44-13" style="--c:#a16207" data-short="储能"><header class="dhead"><span class="dnum">13</span><div class="dtxt"><h3>新能源与新型储能</h3><p class="dsub"><span class="sub">新型电池 · 长时储能 · 构网型储能 · 光伏风电前沿 · 储能安全与回收</span><span class="comma">，</span><span class="fq">周度更新</span><span class="dot">·</span>来源 2 个</p></div><span class="dcnt"><b>2</b>条</span></header><article class="entry" id="e44-1301"><div class="ekick"><span class="type industry">产业</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://www.gessey.com/h-nd-51622.html" target="_blank" rel="noopener noreferrer">清陶动力固态电池项目一期 10GWh 在昆山投产，总投资 80 亿元配套上汽</a></h4><p class="esum">10 月 21 日清陶动力科技（昆山）固态动力电池项目一期投产，项目由上汽旗下华域汽车与清陶能源共同设立、总投资 80 亿元，一期建设 10GWh 固态动力电池基地，产品主要满足上汽集团新能源车型需求。</p><div class="emeta"><span class="src">盖锡新能源</span><span class="dot">·</span><span>2026-10-23</span><span class="dot">·</span><span>固态电池</span></div></article><article class="entry" id="e44-1302"><div class="ekick"><span class="type standard">标准</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://k.sina.com.cn/article_5182171545_134e1a99902002kpz2.html" target="_blank" rel="noopener noreferrer">市场监管总局发布 515 项国家标准，光伏与新型储能技术要求同步落地</a></h4><p class="esum">市场监管总局（国家标准委）批准发布 515 项国家标准及指导性技术文件，其中强制性标准 10 项、推荐性 466 项、指导性技术文件 39 项；高新技术方面含人工智能与人形机器人等 16 项、半导体器件与集成电路 14 项、光电计算与智算 7 项、光伏与新型储能 4 项。</p><div class="emeta"><span class="src">市场监管总局（国家标准委）</span><span class="dot">·</span><span>2026-10-23</span><span class="dot">·</span><span>标准</span></div></article></section><section class="domain" id="d44-14" style="--c:#a21caf" data-short="氢能聚变"><header class="dhead"><span class="dnum">14</span><div class="dtxt"><h3>氢能与可控核聚变</h3><p class="dsub"><span class="sub">绿氢制备与储运 · 氢燃料电池 · 托卡马克/仿星器 · 聚变关键材料</span><span class="comma">，</span><span class="fq">周度更新</span><span class="dot">·</span>来源 2 个</p></div><span class="dcnt"><b>2</b>条</span></header><article class="entry" id="e44-1401"><div class="ekick"><span class="type tech">技术</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://news.bjx.com.cn/html/20261028/1517929.shtml" target="_blank" rel="noopener noreferrer">我国聚变领域最大规模供电系统半实物仿真平台投运，解算步长 0.8 微秒</a></h4><p class="esum">10 月 26 日中核集团中国聚变能源有限公司建设的聚变供电系统半实物仿真平台通过最终验收并投入试运行，模型开关数量超 1 万个、核心解算步长最高 0.8 微秒，可将聚变特种电源研发调试周期缩短 40% 以上。</p><div class="emeta"><span class="src">北极星电力网（中核集团）</span><span class="dot">·</span><span>2026-10-28</span><span class="dot">·</span><span>聚变工程</span></div></article><article class="entry" id="e44-1402"><div class="ekick"><span class="type policy">政策</span><span class="star" role="img" aria-label="常规留意">★</span></div><h4><a href="https://dy.163.com/article/LA6ILOHG05568W0A.html" target="_blank" rel="noopener noreferrer">新华社深读：核聚变能被列入“十五五”新经济增长点，多条技术路线并行</a></h4><p class="esum">新华社 10 月 26 日刊发深读文章指出，“十五五”规划纲要已明确将发展核聚变能列为新的经济增长点，全球多条技术路线并行推进，我国多项核心技术接连破纪录，产业正从基础研究走向国家产业战略前台。</p><div class="emeta"><span class="src">新华社</span><span class="dot">·</span><span>2026-10-26</span><span class="dot">·</span><span>产业定位</span></div></article></section><section class="domain" id="d44-15" style="--c:#4338ca" data-short="量子"><header class="dhead"><span class="dnum">15</span><div class="dtxt"><h3>量子科技</h3><p class="dsub"><span class="sub">量子计算 · 量子通信 · 量子精密测量 · 量子软件与算法</span><span class="comma">，</span><span class="fq">双周更新</span><span class="dot">·</span>来源 4 个</p></div><span class="dcnt"><b>3</b>条</span></header><article class="entry ref" id="e44-1501"><div class="ekick"><span class="type tech">技术</span><span class="star" role="img" aria-label="重点">★★★</span><span class="reftag">重点</span></div><h4><a href="#focus-44-e44-1501">Quantinuum 在 Helios 上实现 99.9995% 逻辑保真度，错误率降至自身纪录十分之一</a></h4><p class="refnote"><span class="arrow">→</span>完整摘要与事件解读见「本期重点」</p></article><article class="entry" id="e44-1502"><div class="ekick"><span class="type tech">技术</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://www.toutiao.com/article/7699049667778085417" target="_blank" rel="noopener noreferrer">英伟达在 JUPITER 超算完成 104 逻辑比特容错模拟，魔态培育省下九成物理比特</a></h4><p class="esum">英伟达 10 月 19 日宣布在德国于利希超算中心 JUPITER 上，用 GH200 系统完成迄今最大规模容错量子计算模拟（104 个逻辑比特），并验证“魔态培育”方案，所需物理比特数量比传统“魔态蒸馏”减少约 90%。</p><div class="emeta"><span class="src">中国经济网</span><span class="dot">·</span><span>2026-10-19</span><span class="dot">·</span><span>容错模拟</span></div></article><article class="entry" id="e44-1503"><div class="ekick"><span class="type tech">技术</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://quantage.top/?p=4574" target="_blank" rel="noopener noreferrer">中科大离子阱量子纠错首次超越盈亏平衡点，逻辑比特相干时间 42 毫秒</a></h4><p class="esum">中科大团队在 Nature Physics（10 月 23 日）发表结果：重复自动纠错后逻辑比特相干时间约 42 毫秒，优于最佳物理比特的 29.4 毫秒与未纠错逻辑比特的 24.7 毫秒；施加可控低频磁场噪声时，纠错后相干时间达最佳物理比特的 11.9 倍。</p><div class="emeta"><span class="src">Nature Physics</span><span class="dot">·</span><span>2026-10-23</span><span class="dot">·</span><span>离子阱</span><span class="tr">英文源 · 已译</span></div></article></section><section class="domain" id="d44-16" style="--c:#115e59" data-short="新材料"><header class="dhead"><span class="dnum">16</span><div class="dtxt"><h3>新材料与前沿材料</h3><p class="dsub"><span class="sub">超宽禁带半导体 · 辐射制冷 · PFAS 降解 · 复合材料 · AI 材料发现</span><span class="comma">，</span><span class="fq">周度更新</span><span class="dot">·</span>来源 2 个</p></div><span class="dcnt"><b>2</b>条</span></header><article class="entry ref" id="e44-1601"><div class="ekick"><span class="type tech">技术</span><span class="star" role="img" aria-label="重点">★★★</span><span class="reftag">重点</span></div><h4><a href="#focus-44-e44-1601">中复神鹰 T1200 级碳纤维实现百吨级工程化量产，拉伸强度突破 8000 兆帕</a></h4><p class="refnote"><span class="arrow">→</span>完整摘要与事件解读见「本期重点」</p></article><article class="entry" id="e44-1602"><div class="ekick"><span class="type tech">技术</span><span class="star" role="img" aria-label="值得关注">★★</span></div><h4><a href="https://stock.hexun.com/2026-10-21/225148405.html" target="_blank" rel="noopener noreferrer">中国电科实现首个立方相氮化铝/金刚石异质结及增强型场效应晶体管</a></h4><p class="esum">中国电科产业基础研究院金刚石团队提出畴匹配外延生长模式，形成高质量单晶立方氮化铝/金刚石异质结，并研制出高性能增强型异质结场效应晶体管，完成从理论计算到材料制备、器件验证的闭环，为超宽禁带半导体提供新范式。</p><div class="emeta"><span class="src">和讯网（人民财讯）</span><span class="dot">·</span><span>2026-10-21</span><span class="dot">·</span><span>超宽禁带</span></div></article></section>
+    
+    
+  </div></main>
+
+  <footer><div class="in">
+    <div class="fgrid">
+      <div><h5>关于本页</h5>
+        <p>覆盖 16 个科技重点方向，全部方向按周采集；可用信源偏少的方向允许 0–2 条，不降频。</p>
+        <p>英文信源保留原文链接，标题与摘要译为中文；专业术语首次出现保留英文缩写。</p>
+        <p>资讯标题已关联原始信源，点击可在新标签页打开原文。</p></div>
+      <div><h5>信源层级</h5>
+        <p><b>L1</b> 政策与标准：部委、标准组织、行业协会、法定披露平台</p>
+        <p><b>L2</b> 产业与媒体：垂直媒体、综合门户、研究机构、企业官方发布</p>
+        <p><b>L3</b> 前沿与学术：顶刊顶会、预印本、实验室</p></div>
+      <div><h5>更新节奏</h5>
+        <p>周度 12 个 · 双周 4 个（6G、网络安全、低空、量子）</p>
+        <p>主页固定为最新一期；每期另存独立归档页，历史期次可在顶部切换。</p></div>
+    </div>
+    <details class="rules">
+      <summary><span>事件关注度判定标准</span><span class="chev">▼</span></summary>
+      <div class="rbody">
+        <div class="lv"><div class="k">★★★<em>重点关注</em></div><div>满足其一且通过四项前置校验：技术代际突破（指标跨代提升或首次实现）、政策法规正式生效、标准冻结、龙头战略级动作（并购 ≥10 亿美元 / 产能 ≥百亿人民币）、基础设施级事件（发射、断供、重大故障）。</div></div>
+        <div class="lv"><div class="k two">★★<em>值得关注</em></div><div>关键产品发布或中试转量产、指标显著改进但未跨代（20%–100%）、重要融资并购（1–10 亿美元）、政策征求意见稿或试点落地、权威机构大幅修正预测、顶会顶刊有明确工程含义的论文。</div></div>
+        <div class="lv"><div class="k one">★<em>常规留意</em></div><div>例行会议、人事变动、常规财报、观点评论、展会预告、小幅改进（&lt;20%）、单一来源无法交叉验证、企业公关稿与白皮书、综述与榜单。</div></div>
+        <div class="lv"><div class="k other">前置校验</div><div>① 可追溯至原始出处；② 为 L1 权威源或 ≥2 个独立 L2 源交叉印证；③ 必须是已发生事实，非“预计/有望”；④ 非企业通稿。</div></div>
+        <div class="lv"><div class="k other">加减分</div><div>传闻最高 ★★ 且须标注“未经证实”；单一中文自媒体最高 ★；仅标题最高 ★★；转载不加分。跨方向共振加一星，最高到重点关注。</div></div>
+      </div>
+    </details>
+    <div class="modnote"><b>关于「本期重点」</b><br>
+      重点按<b>政策/标准 → 技术 → 产业 → 资本</b>排序，周更期最多 <b>5</b> 条（双周合并期不受限）；未进入重点区的三星条目仍在所属方向区<b>按普通条目完整呈现</b>，不丢内容。<br>
+      <b>关于「事件解读」</b><br>
+      每条<b>重点资讯</b>都附带四段解读，角度随资讯类型变化：<b>政策/标准</b>看政策要点、关键条款与时间表；<b>技术</b>先讲清「这项技术是什么」（术语用白话解释，再说清这次更新意味着什么），再看关键数据与为什么重要；<b>产业</b>看事件与格局；<b>资本</b>看交易与主体。四类最后都落到影响判断与后续观察点。点击卡片中的<b>「事件解读」按钮即可展开</b>，该模块<b>不参与关注度判定</b>——
+      是否附解读不影响一条资讯的关注级别，非重点资讯不生成该模块。</div>
+    <div class="disclaim">免责：本页内容为公开信息聚合、翻译与摘要，不构成投资建议。链接指向原始信源，版权归原作者所有。</div>
+  </div></footer>
+</article>
+<button class="totop" id="totop" type="button" aria-label="回到顶部">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V6"/><path d="M6 12l6-6 6 6"/></svg>
+</button>
+<script>
+/* 科技前沿雷达 · 交互（单期页面） */
+(function () {
+  var current = document.querySelector('.issue');
+  if (!current) return;
+  var idx = -1, lock = 0, raf = 0;
+
+  function secs() {
+    return [].slice.call(current.querySelectorAll('.focus,.domain,.eline,.cal'));
+  }
+
+  /* ---------- 导航标签：按本期重点事件涉及的方向生成 ---------- */
+  function buildChips() {
+    var strip = current.querySelector('.chips');
+    if (!strip) return;
+    var items = [], seen = {};
+
+    var cards = [].slice.call(current.querySelectorAll('.focus .fcard'));
+    if (cards.length) {
+      cards.forEach(function (c) {
+        var href = c.getAttribute('data-dir');
+        if (!href || seen[href]) return;
+        seen[href] = 1;
+        items.push({ href: href, label: c.getAttribute('data-dir-label') || '方向' });
+      });
+    } else {
+      /* 本期没有重点事件时，回退到前三个有正文的方向 */
+      [].slice.call(current.querySelectorAll('.domain')).slice(0, 3).forEach(function (d) {
+        var numEl = d.querySelector('.dnum');
+        var num = numEl ? numEl.textContent.replace(/\s/g, '') : '';
+        items.push({ href: '#' + d.id, label: d.getAttribute('data-short') || num || '方向' });
+      });
+    }
+
+    strip.innerHTML = items.map(function (it) {
+      return '<a class="chip" href="' + it.href + '">' + it.label + '</a>';
+    }).join('');
+    strip.scrollLeft = 0;
+  }
+
+  /* ---------- 资讯标题：有原文地址才可跳转 ---------- */
+  function syncLinks() {
+    [].forEach.call(document.querySelectorAll('.entry h4 a, .fcard h3 a'), function (a) {
+      var u = (a.getAttribute('href') || '').trim();
+      if (!u || u === '#' || u === 'javascript:void(0)') {
+        a.classList.add('nourl');
+        a.removeAttribute('target');
+        a.removeAttribute('rel');
+        return;
+      }
+      if (u.charAt(0) === '#') return;            /* 站内锚点保持原样 */
+      a.classList.add('ext');
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.classList.remove('nourl');
+    });
+  }
+
+  /* ---------- 站内锚点：统一用脚本滚动，不触发宿主导航 ---------- */
+  function jumpTo(id) {
+    var el = document.getElementById(id);
+    if (!el) return false;
+    var top = el.getBoundingClientRect().top + window.scrollY - 60;
+    lock = 0;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    if (history.replaceState) history.replaceState(null, '', '#' + id);
+    return true;
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    if (href.length < 2) return;                  /* href="#" 交给 nourl 逻辑 */
+    if (jumpTo(href.slice(1))) e.preventDefault();
+  });
+
+  document.addEventListener('click', function (e) {
+    var dead = e.target.closest ? e.target.closest('a.nourl') : null;
+    if (dead) e.preventDefault();
+  });
+
+  /* ---------- 当前位置高亮（标签条 + 目录） ---------- */
+  function centerChip(chip, strip, smooth) {
+    if (!chip || !strip) return;
+    var left = chip.offsetLeft - (strip.clientWidth - chip.offsetWidth) / 2;
+    left = Math.max(0, Math.min(left, strip.scrollWidth - strip.clientWidth));
+    if (smooth && strip.scrollTo) strip.scrollTo({ left: left, behavior: 'smooth' });
+    else strip.scrollLeft = left;
+  }
+
+  function setCurrent(i, smooth) {
+    var S = secs();
+    if (!S.length) return;
+    i = Math.max(0, Math.min(S.length - 1, i));
+    if (i === idx) return;
+    idx = i;
+    var id = '#' + S[i].id, strip = current.querySelector('.chips'), active = null;
+
+    [].forEach.call(current.querySelectorAll('.chip'), function (a) {
+      var on = a.getAttribute('href') === id;
+      a.classList.toggle('on', on);
+      if (on) active = a;
+    });
+    [].forEach.call(current.querySelectorAll('.ni'), function (a) {
+      a.classList.toggle('on', a.getAttribute('href') === id);
+    });
+    centerChip(active, strip, !!smooth);
+  }
+
+  function currentIndex() {
+    var S = secs(), y = window.scrollY + 120, cur = 0;
+    for (var i = 0; i < S.length; i++) {
+      if (S[i].getBoundingClientRect().top + window.scrollY <= y) cur = i;
+    }
+    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight - 4) cur = S.length - 1;
+    return cur;
+  }
+
+  function onScroll() {
+    if (Date.now() < lock || raf) return;
+    raf = requestAnimationFrame(function () { raf = 0; setCurrent(currentIndex(), true); });
+  }
+
+  /* ---------- 回到顶部 ---------- */
+  var topBtn = document.getElementById('totop');
+  function toggleTop() {
+    if (topBtn) topBtn.classList.toggle('show', window.scrollY > 420);
+  }
+  if (topBtn) {
+    topBtn.addEventListener('click', function () {
+      lock = Date.now() + 400;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+  window.addEventListener('scroll', toggleTop, { passive: true });
+
+  /* ---------- 下拉（目录 / 全部期次） ---------- */
+  function bindDropdown(btnSel, panelSel) {
+    var btn = current.querySelector(btnSel);
+    var panel = current.querySelector(panelSel);
+    if (!btn || !panel || btn.dataset.bound) return;
+    btn.dataset.bound = '1';
+
+    function toggle(o) {
+      panel.classList.toggle('open', o);
+      btn.setAttribute('aria-expanded', o ? 'true' : 'false');
+    }
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      [].forEach.call(current.querySelectorAll('.navpanel.open,.plist.open'), function (p) {
+        if (p !== panel) p.classList.remove('open');
+      });
+      [].forEach.call(current.querySelectorAll('[aria-expanded="true"]'), function (b) {
+        if (b !== btn) b.setAttribute('aria-expanded', 'false');
+      });
+      toggle(!panel.classList.contains('open'));
+    });
+    panel.addEventListener('click', function (e) {
+      if (e.target.closest('a')) toggle(false);
+    });
+    document.addEventListener('click', function (e) {
+      if (panel.classList.contains('open') && !panel.contains(e.target) && !btn.contains(e.target)) toggle(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && panel.classList.contains('open')) { toggle(false); btn.focus(); }
+    });
+  }
+
+  /* ---------- 初始化 ---------- */
+  syncLinks();
+  toggleTop();
+
+  idx = -1;
+  buildChips();
+  setCurrent(0, false);
+  bindDropdown('.catbtn', '.navpanel');
+  bindDropdown('.pall', '.plist');
+
+  // 方向标签点击后同步高亮（滚动由锚点处理器完成）
+  document.addEventListener('click', function (e) {
+    var c = e.target.closest ? e.target.closest('.chip') : null;
+    if (!c) return;
+    var id = (c.getAttribute('href') || '').slice(1);
+    var S = secs();
+    for (var i = 0; i < S.length; i++) {
+      if (S[i].id === id) { idx = -1; setCurrent(i, true); break; }
+    }
+  });
+
+  // 深链接：如 #d42-6
+  var deep = location.hash.match(/^#([\w-]+)$/);
+  if (deep) setTimeout(function () { jumpTo(deep[1]); }, 60);
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () { setCurrent(currentIndex(), false); });
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>科技前沿雷达 · 2026-09-17 ～ 2026-09-24</title>
+<style>
+/* 科技前沿雷达 · 样式（移动优先 · 浅色分区） */
+
+:root{
+  /* 底色与线 */
+  --bg:#f5f6f8;
+  --surface:#ffffff;
+  --line:#e5e8ee;
+  --line-2:#eef0f5;
+
+  /* 文字 */
+  --ink:#18212c;
+  --ink-2:#3d4854;
+  --muted:#5a6573;
+  --faint:#7b8592;
+
+  /* 强调 */
+  --accent:#2f6bd8;
+  --accent-ink:#1f4fa8;
+  --accent-soft:#e9f0fc;
+
+  /* 分区底色 */
+  --hero-1:#dde9fb;
+  --hero-2:#f0f6fe;
+  --focus-bg:#edf2fc;
+  --focus-line:#dae4f5;
+  --foot-bg:#eceff4;
+
+  --r:12px;
+  --shadow-1:0 1px 2px rgba(20,32,50,.04);
+  --shadow-2:0 2px 10px -4px rgba(20,32,50,.12);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:62px}
+body{background:var(--bg);color:var(--ink);font-size:15px;line-height:1.68;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  overflow-x:clip}
+a{color:inherit;text-decoration:none}
+.wrap{padding:0 14px}
+
+/* ============================================================
+   ① 页头：浅蓝分区
+   ============================================================ */
+.hero{background:linear-gradient(180deg,var(--hero-1) 0%,var(--hero-2) 100%);
+  border-bottom:1px solid #cfdcf2}
+.hero .in{padding:20px 14px 16px}
+.hero h1{display:flex;align-items:center;gap:8px;font-size:20px;font-weight:700;
+  color:#123a72;letter-spacing:.01em;line-height:1.35}
+.hero h1 .ico{font-size:18px;line-height:1}
+.hero .range{margin-top:10px;font-size:13px;color:#4a6a99;font-variant-numeric:tabular-nums}
+.hero .hmeta{margin-top:6px;font-size:12.5px;line-height:1.7;color:#5c789f}
+.hero .hmeta b{font-weight:600;color:#25456f}
+
+.periods{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:13px}
+.pday{flex:none;display:inline-flex;align-items:center;justify-content:center;
+  height:34px;padding:0 12px;border-radius:8px;font-size:12.5px;white-space:nowrap;
+  color:#3f5f8c;background:rgba(255,255,255,.72);border:1px solid #d3dff2}
+.pday.on{background:#fff;border-color:#9fbdea;color:var(--accent-ink);font-weight:700;
+  box-shadow:0 1px 2px rgba(30,70,140,.10)}
+.pall{flex:none;height:34px;padding:0 12px;border-radius:8px;white-space:nowrap;
+  border:1px dashed #b8cbeb;background:transparent;color:#4a6a99;
+  font-size:12.5px;font-family:inherit;cursor:pointer}
+
+.plist{position:absolute;z-index:80;min-width:250px;max-width:calc(100vw - 28px);
+  margin-top:6px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:5px;
+  display:none;box-shadow:var(--shadow-2),0 14px 32px -16px rgba(20,40,80,.24)}
+.plist.open{display:block}
+.plist a{display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+  padding:9px 11px;border-radius:7px;font-size:13px;color:var(--ink-2)}
+.plist a:active{background:#f2f5fa}
+.plist a.on{background:var(--accent-soft);color:var(--accent-ink);font-weight:700}
+.plist a .wk{font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+.plist a .rg{font-size:11.5px;color:var(--faint);font-variant-numeric:tabular-nums}
+
+/* ============================================================
+   ② 导航：方向标签条（横滑）+ 目录
+   ============================================================ */
+.nav{position:sticky;top:0;z-index:60;background:#fff;
+  border-bottom:1px solid var(--line);box-shadow:0 2px 7px rgba(20,32,50,.06)}
+.nav .in{display:flex;align-items:center;gap:8px;height:52px;padding:0 10px}
+
+/* 方向标签由当期重点动态生成，数量不定，支持横滑 */
+.chips{display:flex;align-items:center;gap:6px;flex:1;min-width:0;
+  overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;-ms-overflow-style:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;display:inline-flex;align-items:center;height:32px;padding:0 10px;
+  border-radius:7px;font-size:12.5px;color:var(--ink-2);background:#f3f5f9;
+  white-space:nowrap;transition:background .15s,color .15s}
+.chip.on{background:var(--accent-soft);color:var(--accent-ink);font-weight:700;
+  box-shadow:inset 0 0 0 1px #c6daf8}
+
+.catbtn{flex:none;display:inline-flex;align-items:center;gap:4px;height:34px;padding:0 10px;
+  border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink-2);
+  font-size:12.5px;font-family:inherit;cursor:pointer}
+.catbtn:active{background:#f3f5f9}
+.catbtn[aria-expanded="true"]{border-color:#c6daf8;background:var(--accent-soft);color:var(--accent-ink)}
+.catbtn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.8}
+
+.navpanel{position:absolute;right:10px;top:calc(100% + 6px);width:min(300px,calc(100vw - 20px));
+  background:#fff;border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 18px 40px -18px rgba(20,40,80,.26),var(--shadow-1);
+  max-height:min(68vh,520px);overflow:auto;padding:6px;display:none;z-index:65}
+.navpanel.open{display:block}
+.ngroup{padding:5px 3px 3px}
+.ngroup+.ngroup{border-top:1px solid var(--line-2)}
+.nghead{display:flex;align-items:baseline;gap:7px;padding:2px 6px 3px}
+.nghead h4{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--faint)}
+.nghead span{font-size:10px;color:#9aa3b0}
+.ni{display:flex;align-items:center;gap:8px;min-height:34px;padding:4px 6px;border-radius:7px}
+.ni .num{flex:none;width:18px;font-size:10.5px;color:var(--faint);font-variant-numeric:tabular-nums}
+.ni .nm{flex:1;min-width:0;font-size:13px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ni .cov{flex:none;font-size:10px;color:#9aa3b0;font-variant-numeric:tabular-nums}
+.ni .st{flex:none;width:20px;text-align:right;font-size:10.5px;color:var(--faint);font-variant-numeric:tabular-nums}
+.ni:active{background:#f2f5fa}
+.ni.on{background:var(--accent-soft)}
+.ni.on .nm{color:var(--accent-ink);font-weight:700}
+.pfoot{padding:7px 6px 3px;margin-top:3px;border-top:1px solid var(--line-2);
+  font-size:10.5px;color:#9aa3b0;line-height:1.6}
+
+/* ============================================================
+   ③ 本期重点：浅靛蓝分区
+   ============================================================ */
+.focus{margin-top:14px;background:var(--focus-bg);border:1px solid var(--focus-line);
+  border-radius:var(--r);padding:12px 12px 12px}
+.focus-hd{display:flex;align-items:center;gap:8px;padding:0 2px 10px}
+.focus-hd .starico{flex:none;width:17px;height:17px;display:block}
+.focus-hd h2{font-size:15px;font-weight:700;color:#1b3f74}
+.focus-hd .cnt{margin-left:auto;font-size:12px;color:#6b83a8;font-variant-numeric:tabular-nums}
+
+.fcard{background:#fff;border:1px solid #e2e9f6;border-radius:10px;padding:13px 13px;margin-bottom:9px}
+.fcard:last-child{margin-bottom:0}
+.fkick{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:11.5px;
+  color:#5d7290;margin-bottom:6px}
+.fkick .sep{color:#cdd7e6}
+.fcard h3{font-size:16px;line-height:1.45;font-weight:700;color:var(--ink);margin-bottom:6px}
+.fcard .fsum{font-size:13.5px;color:var(--ink-2);line-height:1.66}
+.fmeta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px;
+  font-size:11.5px;color:var(--faint)}
+.fmeta .src{color:var(--muted);font-weight:600}
+.fmeta .dot{color:#d5dbe4}
+
+.type{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700;letter-spacing:.05em}
+.type::before{content:"";width:5px;height:5px;border-radius:1px;background:currentColor}
+.type.industry{color:#0f7a58} .type.policy{color:#7440c9}
+.type.standard{color:#0d7288} .type.tech{color:#2f6bd8}
+.type.capital{color:#9a6414}
+.star{color:#d4453c;font-size:10px;letter-spacing:2px}
+
+/* 事件解读：做成醒目的可展开入口 */
+.interp{margin-top:12px;border-top:1px solid #eaf0fa;padding-top:10px}
+.interp summary{list-style:none;display:flex;align-items:center;gap:8px;min-height:44px;
+  padding:0 11px;border:1px solid #c5d8f6;border-radius:9px;
+  background:linear-gradient(180deg,#eff5ff 0%,#e5eefe 100%);
+  font-size:13px;font-weight:700;color:var(--accent-ink);
+  cursor:pointer;user-select:none;transition:background .15s,border-color .15s,box-shadow .15s}
+.interp summary::-webkit-details-marker{display:none}
+.interp summary:hover{border-color:#a6c3ef;box-shadow:0 1px 0 rgba(30,70,140,.07)}
+.interp summary:active{background:#dfe9fb}
+.interp .ic{flex:none;width:18px;height:18px;border-radius:50%;background:var(--accent);
+  color:#fff;font:italic 700 11px/18px Georgia,"Times New Roman",serif;text-align:center}
+.interp .ihint{margin-left:auto;display:flex;align-items:center;gap:4px;
+  font-size:11.5px;font-weight:600;color:#3f6cb0}
+.interp .ihint-close{display:none}
+.interp .chev{font-size:8px;color:#7b95b8;transition:transform .2s}
+.interp[open] summary{background:#eaf1fd}
+.interp[open] .chev{transform:rotate(180deg)}
+.interp[open] .ihint-open{display:none}
+.interp[open] .ihint-close{display:inline}
+.ibody{animation:fade .16s ease;padding-top:8px}
+@keyframes fade{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+.ib{padding:10px 0;border-top:1px dashed #e6ecf7}
+.ib:first-child{border-top:none;padding-top:2px}
+.ib h6{font-size:11.5px;font-weight:700;color:#2a5590;margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.ib h6 b{font-size:9px;color:#8fa8c8;border:1px solid #dfe8f6;border-radius:3px;padding:0 3px;font-weight:700}
+.ib p,.ib li{font-size:13px;color:var(--ink-2);line-height:1.72}
+.ib ul{list-style:none}
+.ib li{padding-left:11px;position:relative}
+.ib li::before{content:"·";position:absolute;left:1px;color:#a3b6cf;font-weight:700}
+.ib li b{color:var(--ink);font-weight:700}
+.isrc{margin-top:9px;padding-top:8px;border-top:1px solid #eaf0fa;font-size:11px;color:var(--faint);line-height:1.6}
+.isrc .ok{color:#0f7a58}
+
+/* ============================================================
+   ④ 分区标题条
+   ============================================================ */
+.secbar{display:flex;align-items:baseline;gap:8px;margin:20px 2px 8px;
+  padding-top:14px;border-top:1px solid var(--line)}
+.secbar h2{font-size:13px;font-weight:700;color:var(--ink);letter-spacing:.02em}
+.secbar span{font-size:11.5px;color:var(--faint)}
+
+/* ============================================================
+   ⑤ 方向区块：单色系浅底 + 左侧色条
+   ============================================================ */
+.domain{--c:#2f6bd8;margin-bottom:12px;background:var(--surface);
+  border:1px solid var(--line);border-left:4px solid var(--c);
+  border-radius:10px;overflow:hidden;box-shadow:var(--shadow-1)}
+.dhead{display:flex;align-items:flex-start;gap:9px;padding:11px 13px 10px;
+  background:#f7f9fc;background:color-mix(in srgb, var(--c) 7%, #fff);
+  border-bottom:1px solid var(--line-2)}
+.dnum{flex:none;font-size:18px;font-weight:700;letter-spacing:-.02em;line-height:1.1;
+  font-variant-numeric:tabular-nums;padding-top:2px;color:var(--c);opacity:.62}
+.dtxt{flex:1;min-width:0}
+.dtxt h3{font-size:15.5px;font-weight:700;line-height:1.4;color:var(--ink)}
+.dsub{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5}
+.dsub .fq{color:var(--ink-2);font-weight:600}
+.dsub .dot{margin:0 4px;color:#c8d0da}
+.dcnt{flex:none;font-size:10.5px;color:var(--faint);text-align:right;padding-top:3px}
+.dcnt b{display:block;font-size:15px;font-weight:700;color:var(--c);line-height:1.2;font-variant-numeric:tabular-nums}
+
+.entry{padding:11px 13px 12px;border-bottom:1px solid var(--line-2)}
+.entry:last-child{border-bottom:none}
+.entry:active{background:#f8fafc}
+.ekick{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.ekick .star{margin-left:auto}
+.entry h4{font-size:15px;font-weight:600;line-height:1.48;letter-spacing:-.002em}
+.entry h4 a{display:block}
+.entry h4 a:not(.nourl):hover,.fcard h3 a:not(.nourl):hover{
+  color:var(--accent-ink);text-decoration:underline;text-underline-offset:3px;
+  text-decoration-thickness:1px}
+a.nourl{cursor:default}
+.esum{font-size:13.5px;color:var(--ink-2);line-height:1.65;margin-top:4px}
+.emeta{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:7px;font-size:11px;color:var(--faint)}
+.emeta .src{color:var(--muted);font-weight:600}
+.emeta .dot{color:#d5dbe4}
+.tr{font-size:9.5px;color:#5d6775;background:#f1f4f8;border-radius:3px;padding:0 4px;line-height:1.7}
+
+/* 重点条目引用行 */
+.entry.ref{background:#fbfcfe}
+.entry.ref h4{font-size:14.5px}
+.reftag{font-size:9.5px;color:var(--c);border:1px solid currentColor;border-radius:3px;
+  padding:0 4px;line-height:1.7;opacity:.8}
+.refnote{font-size:11.5px;color:var(--muted);margin-top:5px;display:flex;align-items:center;gap:4px}
+.refnote .arrow{color:var(--c);font-weight:700}
+
+/* 空方向：单行 */
+.eline{--c:#2f6bd8;display:flex;align-items:center;gap:8px;min-height:50px;padding:0 13px;
+  margin-bottom:10px;background:var(--surface);border:1px solid var(--line);
+  border-left:4px solid var(--c);border-radius:10px}
+.eline:active{background:#f8fafc}
+.eline .en{flex:none;width:18px;font-size:11px;color:var(--c);opacity:.55;font-variant-numeric:tabular-nums}
+.eline .et{flex:1;min-width:0;font-size:13.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eline .er{flex:none;font-size:10px;padding:1px 6px;border-radius:3px;line-height:1.7}
+.eline .er.e-rot{background:#f1f3f7;color:#5f6b7a}
+.eline .er.e-qual{background:#fdf4e6;color:#8a5a12}
+.eline .er.e-fail{background:#fdeceb;color:#a32a22}
+.eline .ex{flex:none;font-size:10px;color:var(--faint);font-variant-numeric:tabular-nums}
+
+/* ============================================================
+   ⑥ 日历
+   ============================================================ */
+.cal{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  overflow:hidden;margin-top:4px;box-shadow:var(--shadow-1)}
+.cal .calhd{display:flex;align-items:center;gap:8px;padding:12px 13px 9px;
+  background:#f7f9fc;border-bottom:1px solid var(--line-2)}
+.cal .calhd h2{font-size:13.5px;font-weight:700;color:var(--ink)}
+.cal .calhd .note{font-size:11px;color:var(--faint);margin-left:auto}
+.cal ul{list-style:none}
+.cal li{display:grid;grid-template-columns:56px 1fr;gap:2px 9px;padding:11px 13px;
+  border-top:1px solid var(--line-2);align-items:baseline}
+.cal li:first-child{border-top:none}
+.cal .d{font-size:12px;font-weight:700;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.cal .d.soon{color:#c9352b}
+.cal .e{font-size:13.5px;color:var(--ink);line-height:1.6}
+.cal .m{grid-column:2;font-size:10.5px;color:var(--faint);display:flex;gap:7px;flex-wrap:wrap;margin-top:2px}
+.cal .pill{font-size:10px;padding:0 6px;border-radius:999px;line-height:1.8}
+.cal .pill.soon{background:#fdecea;color:#c9352b}
+.cal .pill.next{background:var(--accent-soft);color:var(--accent-ink)}
+
+/* ============================================================
+   ⑦ 页脚：浅灰分区
+   ============================================================ */
+footer{margin-top:18px;background:var(--foot-bg);border-top:1px solid #dfe4ec}
+footer .in{padding:16px 14px 32px}
+.fgrid{display:grid;gap:12px;font-size:12px;color:var(--muted)}
+.fgrid h5{font-size:11.5px;color:var(--ink-2);font-weight:700;margin-bottom:4px;letter-spacing:.02em}
+.fgrid p{margin-bottom:3px;line-height:1.65}
+details.rules{margin-top:14px;background:#fff;border:1px solid #dfe4ec;border-radius:10px;overflow:hidden}
+details.rules summary{list-style:none;cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px;
+  padding:9px 13px;font-size:12px;font-weight:600;color:var(--ink-2)}
+details.rules summary::-webkit-details-marker{display:none}
+details.rules .chev{font-size:8px;color:var(--faint);margin-left:auto;transition:transform .2s}
+details.rules[open] .chev{transform:rotate(180deg)}
+.rbody{padding:11px 13px 13px;font-size:12px;color:var(--ink-2);line-height:1.75;border-top:1px solid var(--line-2)}
+.rbody .lv{display:grid;grid-template-columns:1fr;gap:2px;padding:8px 0;border-bottom:1px dashed var(--line-2)}
+.rbody .lv:last-child{border-bottom:none}
+.rbody .k{font-weight:700;color:#c9352b;font-size:11.5px;letter-spacing:1px}
+.rbody .k.two{color:#b45309} .rbody .k.one{color:var(--muted)}
+.rbody .k.other{color:var(--ink-2);font-size:11px;letter-spacing:0}
+.rbody .k em{display:block;font-style:normal;font-size:10px;font-weight:600;
+  letter-spacing:0;color:inherit;opacity:.82;margin-top:1px}
+.modnote{margin-top:12px;padding:11px 13px;background:#fff;border:1px solid #dfe4ec;border-radius:10px;
+  font-size:11.5px;color:#4a5f7d;line-height:1.7}
+.modnote b{color:#25456f}
+.disclaim{margin-top:12px;font-size:11px;color:var(--faint);line-height:1.65}
+
+/* ============================================================
+   ⑧ 回到顶部
+   ============================================================ */
+.totop{position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:70;
+  width:44px;height:44px;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:#fff;border:1px solid var(--line);color:var(--ink-2);cursor:pointer;
+  box-shadow:0 6px 18px -8px rgba(20,40,80,.4),0 1px 2px rgba(20,32,50,.06);
+  opacity:0;visibility:hidden;transform:translateY(8px);
+  transition:opacity .2s ease,transform .2s ease,visibility .2s}
+.totop.show{opacity:1;visibility:visible;transform:none}
+.totop:active{background:#f1f4f8}
+.totop svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round}
+@media (min-width:760px){.totop{right:24px;bottom:24px;width:46px;height:46px}}
+
+/* 窄屏精简：方向副标题只留频率与信源，细分领域在桌面端展开 */
+@media (max-width:759px){
+  .dsub .sub,.dsub .comma{display:none}
+  .dsub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
+
+/* ============================================================
+   桌面增强
+   ============================================================ */
+@media (min-width:760px){
+  body{font-size:15.5px}
+  .wrap{padding:0 24px;max-width:920px;margin:0 auto}
+  .hero .in{padding:30px 24px 22px;max-width:920px;margin:0 auto}
+  .hero h1{font-size:25px;gap:10px}
+  .hero h1 .ico{font-size:22px}
+  .hero .range{font-size:14px;margin-top:12px}
+  .hero .hmeta{font-size:13px}
+  .periods{gap:8px;margin-top:16px}
+  .pday,.pall{height:32px;font-size:13px}
+  .nav .in{padding:0 24px;max-width:920px;margin:0 auto}
+  .navpanel{right:calc((100% - 920px)/2 + 24px);width:340px}
+  .chip{height:30px;font-size:12.5px}
+  .focus{padding:14px}
+  .focus-hd h2{font-size:16px}
+  .fcard{padding:17px 18px}
+  .fcard h3{font-size:17.5px}
+  .fcard .fsum{font-size:14px}
+  .entry{padding:13px 18px 14px}
+  .entry:hover{background:#fafbfd}
+  .entry h4{font-size:15.5px}
+  .esum{font-size:14px}
+  .dhead{padding:13px 18px 11px}
+  .dtxt h3{font-size:16.5px}
+  .dsub{font-size:11.5px}
+  .eline{padding:0 18px}
+  .cal li{grid-template-columns:74px 1fr 180px auto;align-items:center}
+  .cal .m{grid-column:auto;margin:0;justify-content:flex-end}
+  .fgrid{grid-template-columns:repeat(3,1fr);gap:24px}
+  .rbody .lv{grid-template-columns:66px 1fr;gap:10px}
+}
+
+/* ============================================================
+   ⑨ 历史期次附加栏目（旧版 财报 / 简讯 / 未来关注）
+   ============================================================ */
+.blist{list-style:none;margin-top:6px}
+.blist li{position:relative;padding-left:11px;font-size:13.5px;color:var(--ink-2);line-height:1.66}
+.blist li+li{margin-top:5px}
+.blist li::before{content:"·";position:absolute;left:1px;color:#a3b6cf;font-weight:700}
+.dnum.ico{opacity:1;font-size:16px;letter-spacing:0}
+.cal li .e b{font-weight:700;color:var(--ink)}
+
+@media print{
+  .nav,.navpanel,.plist{display:none!important}
+  body{background:#fff;font-size:10.5pt}
+  .hero{background:#f0f4fa!important}
+  .periods{display:none}
+  .domain,.cal,.fcard,.eline{break-inside:avoid;box-shadow:none}
+  .totop{display:none!important}
+  .interp summary{display:none}
+  .ibody{display:block!important}
+  footer{background:#fff}
+}
+
+</style>
+</head>
+<body>
+
+<article class="issue" id="w39" data-week="39" data-label="2026-09-17 ～ 2026-09-24">
+
+  <header class="hero"><div class="in">
+    <h1><span class="ico">🚀</span>科技前沿雷达</h1>
+    <p class="range">2026-09-17 ～ 2026-09-24</p>
+    <p class="hmeta">重点事件 <b>32</b> 条 · 覆盖 <b>13/16</b> 方向 · 财报 <b>2</b> 条 · 简讯 <b>11</b> 条 · 未来关注 <b>12</b> 项 · 生成于 2026-09-25</p>
+    <div class="periods"><a class="pday" href="index.html">最新 · 11-06</a><a class="pday" href="issue-2026-10-30.html">历史 · 10-30</a><a class="pday" href="issue-2026-10-16.html">历史 · 10-16</a><a class="pday" href="issue-2026-10-02.html">历史 · 09-30</a><a class="pday on" href="issue-2026-09-25.html">历史 · 09-24</a><button class="pall" aria-expanded="false" aria-controls="plist-39">全部期次</button></div>
+    <div class="plist" id="plist-39"><a href="index.html"><span class="wk">2026-10-31 ～ 2026-11-06</span></a><a href="issue-2026-10-30.html"><span class="wk">2026-10-17 ～ 2026-10-30</span></a><a href="issue-2026-10-16.html"><span class="wk">2026-10-09 ～ 2026-10-16</span></a><a href="issue-2026-10-02.html"><span class="wk">2026-09-25 ～ 2026-09-30</span></a><a class="on" href="issue-2026-09-25.html"><span class="wk">2026-09-17 ～ 2026-09-24</span></a><a href="issue-2026-09-18.html"><span class="wk">2026-09-11 ～ 2026-09-18</span></a></div>
+  </div></header>
+
+  <nav class="nav">
+    <div class="in">
+      <div class="chips"></div>
+      <button class="catbtn" aria-expanded="false" aria-haspopup="true" aria-controls="panel-39">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="5" height="5" rx="1"/><rect x="9.5" y="1.5" width="5" height="5" rx="1"/><rect x="1.5" y="9.5" width="5" height="5" rx="1"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/></svg>目录
+      </button>
+    </div>
+    <div class="navpanel" id="panel-39"><div class="ngroup"><div class="nghead"><h4>本期覆盖方向</h4><span>13 个</span></div><a class="ni" href="#d39-1"><span class="num">01</span><span class="nm">集成电路与半导体</span><span class="cov">旧版</span><span class="st">3</span></a><a class="ni" href="#d39-3"><span class="num">03</span><span class="nm">算力基础设施与云网融合</span><span class="cov">旧版</span><span class="st">3</span></a><a class="ni" href="#d39-4"><span class="num">04</span><span class="nm">6G 与星地融合通信</span><span class="cov">旧版</span><span class="st">1</span></a><a class="ni" href="#d39-6"><span class="num">06</span><span class="nm">人工智能与大模型</span><span class="cov">旧版</span><span class="st">6</span></a><a class="ni" href="#d39-7"><span class="num">07</span><span class="nm">具身智能与机器人</span><span class="cov">旧版</span><span class="st">3</span></a><a class="ni" href="#d39-8"><span class="num">08</span><span class="nm">智能驾驶与自动驾驶</span><span class="cov">旧版</span><span class="st">2</span></a><a class="ni" href="#d39-9"><span class="num">09</span><span class="nm">航空航天与商业航天</span><span class="cov">旧版</span><span class="st">1</span></a><a class="ni" href="#d39-10"><span class="num">10</span><span class="nm">低空经济与 eVTOL</span><span class="cov">旧版</span><span class="st">2</span></a><a class="ni" href="#d39-11"><span class="num">11</span><span class="nm">生物医药与脑机接口</span><span class="cov">旧版</span><span class="st">3</span></a><a class="ni" href="#d39-13"><span class="num">13</span><span class="nm">新能源与新型储能</span><span class="cov">旧版</span><span class="st">2</span></a><a class="ni" href="#d39-14"><span class="num">14</span><span class="nm">氢能与可控核聚变</span><span class="cov">旧版</span><span class="st">2</span></a><a class="ni" href="#d39-15"><span class="num">15</span><span class="nm">量子科技</span><span class="cov">旧版</span><span class="st">2</span></a><a class="ni" href="#d39-16"><span class="num">16</span><span class="nm">新材料与前沿材料</span><span class="cov">旧版</span><span class="st">2</span></a></div><div class="pfoot">历史期次沿用旧版栏目划分，序号 01–16 为方向固定编号。</div></div>
+  </nav>
+  <main><div class="wrap">
+    
+    <div class="secbar"><h2>分方向正文</h2>
+      <span>13 个方向有内容 · 旧版栏目归档 · 点顶部标签可跳转</span></div>
+    <section class="domain" id="d39-1" style="--c:#1d4ed8" data-short="半导体"><header class="dhead"><span class="dnum">01</span><div class="dtxt"><h3>集成电路与半导体</h3><p class="dsub"><span class="sub">先进制程 · 先进封装 · 第三代/第四代半导体 · EDA · 设备与材料 · RISC-V</span><span class="comma">，</span><span class="fq">历史期次</span><span class="dot">·</span><span>旧版栏目：半导体/芯片</span></p></div><span class="dcnt"><b>3</b>条</span></header><article class="entry" id="L39-07"><h4><a href="#">长鑫存储第五代 DRAM 平台 G5 量产：不用 EUV 将内存阵列半间距缩至 11.95 纳米</a></h4><p class="esum">长鑫科技在 2026 世界制造业大会宣布第五代 DRAM 技术平台 G5 实现量产，依托四重曝光技术配合 ArF 浸没式 DUV 光刻，把内存阵列有源区半间距微缩至 11.95 纳米，工艺水平比肩全球顶尖量产节点。每片晶圆产出裸片（8Gb 颗粒基准）数量较第四代平台提升至少 50%，存储电容深宽比做到 45:1。同步展出两款基于 G5 的 24Gb LPDDR5X 量产产品，分别采用 496Ball 与 245Ball 封装。公司同时说明良率爬坡仍需一定周期，G5 产品短期不会形成规模销售。</p><div class="emeta"><span class="src">websearch 补检（证券时报、搜狐财经、BT财经）</span><span class="dot">·</span><span>2026-09-20</span></div></article><article class="entry" id="L39-08"><h4><a href="#">服务器级 DDR5 克价超黄金，AI 需求推动存储进入超级周期</a></h4><p class="esum">集邦咨询报价显示，截至 8 月 28 日服务器级 DDR5 16GB 现货均价为每颗 53.933 美元，按约 0.2 克重量折算每克约 269.7 美元，为同期国际金价每克 146.8 美元的 1.84 倍；16GB DDR4 模组价格从 2024 年底约 3.2 美元升至 2025 年 12 月的逾 62 美元。韩国 8 月 1 日至 20 日 DRAM 出口单价达每公斤 9.2183 万美元，同比上涨 401%。集邦咨询数据同时显示，2026 年二季度一般型 DRAM 合约价环比涨 58% 至 63%，NAND 闪存涨 70% 至 75%。</p><div class="emeta"><span class="src">websearch 补检（经济日报、TrendForce 集邦咨询）</span><span class="dot">·</span><span>2026-09-23</span></div></article><article class="entry" id="L39-09"><h4><a href="#">vivo X500 Pro 与 OPPO Find X10 系列密集发布，天玑 9600 系列芯片上市</a></h4><p class="esum">vivo X500 Pro 系列 9 月 21 日发布，搭载联发科天玑 9600 Pro 旗舰芯片，6499 元起；OPPO Find X10 标准版与 Find X10 E 于 9 月 23 日发布，分别搭载天玑 9600M 与天玑 9500s 芯片，售价 5499 元与 4999 元起，标准版配备双 2 亿像素镜头群。同期高通发布新一代骁龙移动平台，采用 2nm 制程并面向智能体场景。</p><div class="emeta"><span class="src">热榜/IT之家（多源合并）</span><span class="dot">·</span><span>2026-09-21 ~ 09-23</span></div></article></section><section class="domain" id="d39-3" style="--c:#0e7490" data-short="算力"><header class="dhead"><span class="dnum">03</span><div class="dtxt"><h3>算力基础设施与云网融合</h3><p class="dsub"><span class="sub">一体化算力网 · 智算中心 · 边缘计算 · 800G/1.6T 光模块 · 硅光/CPO · 空芯光纤</span><span class="comma">，</span><span class="fq">历史期次</span><span class="dot">·</span><span>旧版栏目：算力/云基建</span></p></div><span class="dcnt"><b>3</b>条</span></header><article class="entry" id="L39-10"><h4><a href="#">华为发布昇腾 960 超节点：业界首个采用 NPO 近封装光学技术的超节点</a></h4><p class="esum">在华为全联接大会 2026 上，华为发布昇腾 960 超节点，算力卡规模从上一代的 1024 卡升级至 4096 卡，可提供 8E FP8 算力与 1PB HBM 容量，面向十万亿参数模型的训练与推理。该产品首次采用 NPO 近封装光学技术，搭载量产 NPO 光引擎 Hi-ONE，单引擎传输容量 7.2T 并内置光源；基于「灵衢＋Hi-ONE」实现内存统一编址，用 5500 个 Hi-ONE 模块替代原本需要的 4.8 万颗 800G 光模块，功耗降低超 550 千瓦，可用度达 99.8%。华为同时表示，4K 超节点组成的 10 万卡集群相比 8 卡服务器集群，模型浮点算力利用率可提升 2.75 倍。</p><div class="emeta"><span class="src">websearch 补检（新华网、中国经济网、新华财经）</span><span class="dot">·</span><span>2026-09-17</span></div></article><article class="entry" id="L39-11"><h4><a href="#">华为云在贵安、和林格尔、芜湖规模化建设 3D 数据中心</a></h4><p class="esum">华为云已在贵州贵安、内蒙古和林格尔、安徽芜湖部署三大云核心枢纽，均规模化建设 3D 数据中心。华为先在贵安完成三层架构样板验证，芜湖项目从打桩开工到交付历时 9 个月，机电交付周期较常规方案减半、底层机电可沿用 10 年以上，而算力设备每 1 至 2 年即迭代，算力资产的折旧模型与投资回报周期随之改写。华为同期将《3D 数据中心概要设计图库》向全社会开放并发行《3D 数据中心》专著。</p><div class="emeta"><span class="src">websearch 补检（中国经济网）</span><span class="dot">·</span><span>2026-09-21</span></div></article><article class="entry" id="L39-12"><h4><a href="#">液冷成为智算中心硬性门槛，2026 年全球市场规模预计突破 1147 亿元</a></h4><p class="esum">赛迪顾问数据显示，2025 年中国液冷数据中心整体市场规模 159.8 亿元、同比增长 45.2%，预计 2026 年达 232.5 亿元、2028 年突破 470 亿元；中金公司预测 2026 年全球智算中心液冷市场规模有望突破 1147 亿元、同比增长 273%。国家能源局数据显示，2025 年全国算力中心总用电量 1700 亿千瓦时、占全社会用电量 1.6%。技术路线上，冷板式在存量改造市场占比超 85%，浸没式可支撑单柜 100 至 250 千瓦、PUE 低至 1.03 至 1.05。</p><div class="emeta"><span class="src">websearch 补检（经济日报、人民网财经）</span><span class="dot">·</span><span>2026-09-21</span></div></article></section><section class="domain" id="d39-4" style="--c:#6d28d9" data-short="6G"><header class="dhead"><span class="dnum">04</span><div class="dtxt"><h3>6G 与星地融合通信</h3><p class="dsub"><span class="sub">6G 关键技术试验 · 星地融合 · 手机直连卫星 · 太赫兹/智能超表面</span><span class="comma">，</span><span class="fq">历史期次</span><span class="dot">·</span><span>旧版栏目：通信/卫星</span></p></div><span class="dcnt"><b>1</b>条</span></header><article class="entry" id="L39-21"><h4><a href="#">2026 中国国际信息通信展览会开幕，工信部明确加快 6G 核心技术攻关</a></h4><p class="esum">2026 中国国际信息通信展览会 9 月 23 日在京开幕，为期 3 天，以「强网兴算·智汇生态」为主题，重点展示 5G-A 规模商用、6G 技术试验、算力设施、卫星互联网、人工智能与量子科技等领域成果，并设置信息通信业「十五五」创新图景展区。开幕式上成立 ION-2030（智能光网络）推进组，集中发布 20 余项研究报告与行业标准。工信部表示将推动宽带网络向「双万兆」演进、推进低轨卫星互联网系统建设、加快 6G 核心技术攻关与标准研制。截至 2026 年 7 月，全国 5G 基站总数达 515.4 万个，5G-A 网络覆盖全国 330 余个城市。</p><div class="emeta"><span class="src">websearch 补检（光明日报）</span><span class="dot">·</span><span>2026-09-23</span></div></article></section><section class="domain" id="d39-6" style="--c:#2563eb" data-short="人工智能"><header class="dhead"><span class="dnum">06</span><div class="dtxt"><h3>人工智能与大模型</h3><p class="dsub"><span class="sub">基础大模型 · AI Agent · 世界模型 · AI for Science · 模型安全与对齐 · 多模态/推理模型</span><span class="comma">，</span><span class="fq">历史期次</span><span class="dot">·</span><span>旧版栏目：AI/大模型</span></p></div><span class="dcnt"><b>6</b>条</span></header><article class="entry" id="L39-01"><h4><a href="#">Anthropic 发布 Claude Opus 5.5：默认 1M token 上下文，运行成本较 Opus 5 降低 40%</a></h4><p class="esum">Claude Opus 5.5 是 Claude 5.5 系列的首个模型，定位于长时间运行的智能体编码与知识工作，默认 1M token 上下文窗口；输入、输出定价为每百万 token 4 美元与 20 美元，较 Opus 5 降价 20%，缓存读取降至 0.20 美元。官方称其在多数工作上达到 Claude Fable 5.1 的水平，而运行成本低 40%、输出速度快 30% 以上。Artificial Analysis 实测 Intelligence Index 得分 58，为该公司测得的最高分，Terminal-Bench 4.0 以 59.6% 与 GPT-6 Astra 持平；Claude Code v2.1.280 已把它设为默认 Opus 模型，Anthropic 同步公开了 Claude Code 单项任务的成本构成。</p><div class="emeta"><span class="src">AIHOT/Anthropic：Newsroom、AIHOT/Claude Platform 开发者版本说明、AIHOT/Artificial Analysis（多源合并）</span><span class="dot">·</span><span>2026-09-22</span></div></article><article class="entry" id="L39-02"><h4><a href="#">OpenAI 发布 GPT-6 Sol 与 GPT-6 Luna：沿用 Astra 训练方法，API 价格减半</a></h4><p class="esum">两款新模型把 GPT-6 Astra 的训练方法用到更快更便宜的规模上，Sol 定价每百万 token 输入 2 美元、输出 10 美元，Luna 为 0.10 美元与 0.50 美元，较 GPT-5.6 促销价下调约 50%。发布当日即上线 API，并向 Plus、Pro、Business、Enterprise 和 Edu 用户推送至 ChatGPT Work 与 Codex，同时登陆 OpenRouter。Artificial Analysis 测得两者 Intelligence Index 得分与前代相近而单任务成本减半，在智能与成本的 Pareto 前沿上新增 11 个点位，其中 Luna 贡献 5 个。</p><div class="emeta"><span class="src">AIHOT/OpenAI：官网动态、AIHOT/MarkTechPost、AIHOT/Artificial Analysis、AIHOT/X：OpenRouter（多源合并）</span><span class="dot">·</span><span>2026-09-23</span></div></article><article class="entry" id="L39-03"><h4><a href="#">xAI 发布 Grok 4.7：编码智能体指数升至 56，排名仅次于 Anthropic 与 OpenAI</a></h4><p class="esum">Grok 4.7 定位于 xAI 最强的编码与知识工作模型，定价每百万输入 token 2 美元、输出 6 美元，与 Grok 4.6 同价同速，另提供速度与价格加倍的快速变体。Artificial Analysis 测得智能指数 46 分、较 Grok 4.6 高 2 分，使 xAI 进入前四；搭配 Grok Build 的编码智能体指数从 47 升至 56，位列第三。</p><div class="emeta"><span class="src">AIHOT/xAI：News、AIHOT/Artificial Analysis（2 个来源合并）</span><span class="dot">·</span><span>2026-09-21</span></div></article><article class="entry" id="L39-04"><h4><a href="#">小米开源全模态模型 MiMo-V2.6 Pro 与 Flash：Pro 登顶开放权重智能指数</a></h4><p class="esum">两个原生全模态模型通过规模化强化学习训练，Pro 在 Artificial Analysis Intelligence Index 得分 46，较前代 MiMo-V2.5-Pro 的 26 分大幅提升，为开放权重模型中最高；能力覆盖编码、computer use、3D 推理与创作，在多数 Agent 基准上与 Claude Opus 5、GPT-5.6 Sol 表现相当。小米把这一系列称为探索递归自我改进（RSI）路径的关键一步。</p><div class="emeta"><span class="src">AIHOT/公众号：小米 MiMo、AIHOT/X：Xiaomi MiMo、AIHOT/X：Clément Delangue（3 个来源合并）</span><span class="dot">·</span><span>2026-09-22</span></div></article><article class="entry" id="L39-05"><h4><a href="#">阶跃星辰发布旗舰基座 Step 5 Preview：600B 稀疏 MoE，10 月 15 日开源权重</a></h4><p class="esum">Step 5 Preview 采用稀疏 MoE 架构，总参数量 600B、激活 27B，支持 100 万 token 上下文与文本、视觉输入，在 Artificial Analysis Intelligence Index 得 44 分，居全球开源模型前三，单任务成本约为 Claude Opus 5 的八分之一。权重计划 10 月 15 日开源。</p><div class="emeta"><span class="src">AIHOT/公众号：阶跃星辰（Step）</span><span class="dot">·</span><span>2026-09-20</span></div></article><article class="entry" id="L39-06"><h4><a href="#">Anthropic 自建湿实验室，949 个 Claude 智能体自主发现新型酶系统 ART</a></h4><p class="esum">Anthropic 成立生命科学研究组与自有湿实验室，并公布首个成果——949 个 Claude 智能体在约 21.5 小时内自主追踪到一个此前未知的酶系统 ART（array-associated reverse transcriptases，与 DNA 重复序列相关）。整个过程消耗 215.6M token，搜索 19.4 亿个蛋白质簇并回收 198,290 个 RT 簇。</p><div class="emeta"><span class="src">AIHOT/Anthropic：Newsroom、AIHOT/X：Rohan Paul（2 个来源合并）</span><span class="dot">·</span><span>2026-09-24</span></div></article></section><section class="domain" id="d39-7" style="--c:#15803d" data-short="机器人"><header class="dhead"><span class="dnum">07</span><div class="dtxt"><h3>具身智能与机器人</h3><p class="dsub"><span class="sub">人形机器人 · 灵巧操作 · 具身基础模型 · 运动控制与核心零部件</span><span class="comma">，</span><span class="fq">历史期次</span><span class="dot">·</span><span>旧版栏目：机器人/具身</span></p></div><span class="dcnt"><b>3</b>条</span></header><article class="entry" id="L39-13"><h4><a href="#">智身科技完成 B 轮融资，具身智能机器人累计量产突破 1.5 万台</a></h4><p class="esum">具身智能企业智身科技宣布完成 B 轮融资，同时其具身智能机器人累计量产突破 1.5 万台，单月产能较去年月均水平提升超 10 倍，已形成三大基地、四大工厂的生产布局，产品进入电力、石化、消防、安防、应急、教育等行业。</p><div class="emeta"><span class="src">websearch 补检（新华网）</span><span class="dot">·</span><span>2026-09-20</span></div></article><article class="entry" id="L39-14"><h4><a href="#">上纬新材发布消费级机器人品牌「启元机器人」，Q1、T1 售价 19999 元起</a></h4><p class="esum">上纬新材旗下消费级具身智能品牌「启元机器人」发布启元 Q1、启元 T1 两款个人机器人，售价 19999 元起。公司引入汽车工业的制造节拍与质量管理方式，每 2.5 分钟下线一台机器人，生产环节执行汽车质量管理体系标准，测试环节按手机 3C 认证标准进行。</p><div class="emeta"><span class="src">websearch 补检（新华网）</span><span class="dot">·</span><span>2026-09-20</span></div></article><article class="entry" id="L39-15"><h4><a href="#">智元机器人远征 A3 Ultra 完成千台级车规量产验证，并落地多类真实商用场景</a></h4><p class="esum">智元机器人公布远征 A3 Ultra 的商用落地实景案例，产品在汽车 4S 店、酒店和零售便利店等真实运营环境中完成多机协同、人机协同与自主作业，并已完成千台级车规量产验证，支持便捷部署与模块化维护。同期智元机器人与长隆集团宣布全球首个具身智能主题乐园于 9 月 24 日开园，超过 300 台机器人常态化上岗。</p><div class="emeta"><span class="src">websearch 补检（新浪财经研报）</span><span class="dot">·</span><span>2026-09-18</span></div></article></section><section class="domain" id="d39-8" style="--c:#c2410c" data-short="智驾"><header class="dhead"><span class="dnum">08</span><div class="dtxt"><h3>智能驾驶与自动驾驶</h3><p class="dsub"><span class="sub">L3+ 自动驾驶 · 车路云一体化 · 端到端 · 智驾芯片与传感器</span><span class="comma">，</span><span class="fq">历史期次</span><span class="dot">·</span><span>旧版栏目：智能驾驶/自动驾驶</span></p></div><span class="dcnt"><b>2</b>条</span></header><article class="entry" id="L39-16"><h4><a href="#">文远知行获西班牙首张国家级 L4 级自动驾驶乘用车运营牌照</a></h4><p class="esum">文远知行拿下西班牙首张国家级 L4 级自动驾驶乘用车运营牌照。国内制度框架同步加速：《智能网联新能源汽车产业发展「十五五」规划》于 9 月印发，适用于 L3 级和 L4 级载客、载货车辆的强制性国家标准获批，道路交通安全法首次设立自动驾驶专章。中国汽车技术研究中心数据显示，L2 级产品渗透率已从 2021 年的 25% 提升至目前超过 70%；东风汽车在武汉推进 Robotaxi 三期，累计测试里程超 200 万公里、接待体验用户超万人。</p><div class="emeta"><span class="src">websearch 补检（上海证券报）</span><span class="dot">·</span><span>2026-09-22</span></div></article><article class="entry" id="L39-17"><h4><a href="#">特斯拉 Cybercab 在北京、上海亮相，与智界 RX 的 L3 路线形成对照</a></h4><p class="esum">9 月 17 日特斯拉 Cybercab 在北京华贸与上海兴业太古汇开门亮相，该车没有方向盘、踏板和后视镜。同期国内路线仍在为方向盘留位置：智界 RX 于 9 月 16 日获得 L3 级自动驾驶道路测试牌照，路测聚焦城市快速路，覆盖拥堵跟车、匝道汇入汇出与加塞抢道等工况，全车配备 38 个融合感知传感器与四激光雷达矩阵，并按定位、通信、供电、计算、制动、转向、感知、交互八个环节做冗余设计。</p><div class="emeta"><span class="src">websearch 补检（搜狐科技）</span><span class="dot">·</span><span>2026-09-17</span></div></article></section><section class="domain" id="d39-9" style="--c:#1e3a8a" data-short="航天"><header class="dhead"><span class="dnum">09</span><div class="dtxt"><h3>航空航天与商业航天</h3><p class="dsub"><span class="sub">可复用火箭 · 卫星批产 · 星上智能处理 · 深空探测 · 商业发射</span><span class="comma">，</span><span class="fq">历史期次</span><span class="dot">·</span><span>旧版栏目：商业航天</span></p></div><span class="dcnt"><b>1</b>条</span></header><article class="entry" id="L39-20"><h4><a href="#">力箭一号遥十八「一箭 9 星」发射，中科宇航披露年产能力已达 30 发</a></h4><p class="esum">9 月 20 日中科宇航力箭一号遥十八运载火箭在东风商业航天创新试验区以「一箭 9 星」方式将「超智算一号」等 9 颗卫星送入预定轨道。中科宇航披露，力箭一号现阶段年产能已达 30 发，依托专属发射工位与配套技术厂房把发射场测发周期压缩至 10 天以内；公司在手订单储备充足，发射任务排期已规划至 2027 年下半年。</p><div class="emeta"><span class="src">websearch 补检（中国证券报、环球网）</span><span class="dot">·</span><span>2026-09-20</span></div></article></section><section class="domain" id="d39-10" style="--c:#0f766e" data-short="低空"><header class="dhead"><span class="dnum">10</span><div class="dtxt"><h3>低空经济与 eVTOL</h3><p class="dsub"><span class="sub">eVTOL 适航与商业化 · 低空基础设施 · 无人机物流 · 空域管理</span><span class="comma">，</span><span class="fq">历史期次</span><span class="dot">·</span><span>旧版栏目：低空经济/eVTOL</span></p></div><span class="dcnt"><b>2</b>条</span></header><article class="entry" id="L39-18"><h4><a href="#">蓝霄航空完成数千万元天使+++轮融资，eVTOL 货运场景跑通商业闭环</a></h4><p class="esum">增程式倾转旋翼 eVTOL 研发制造商蓝霄航空完成数千万元天使+++轮融资，由华仓资本领投、老股东初心资本追加投资。同期披露 eVTOL 货运场景已率先跑通商业化闭环，综合运营成本仅为传统直升机的 15%。2026 年上半年国内低空经济领域总融资规模 292.89 亿元，其中前五家整机厂拿走约八成资金，而真正从事 eVTOL 整机研发制造的企业仅约五六十家。</p><div class="emeta"><span class="src">websearch 补检（华夏时报）</span><span class="dot">·</span><span>2026-09-19</span></div></article><article class="entry" id="L39-19"><h4><a href="#">联合飞机镧影 R6000 进入工程验证阶段，计划 2026 年底下线 7 架</a></h4><p class="esum">联合飞机集团披露，全球首款 6 吨级倾转旋翼飞行器镧影 R6000 目前处于科研试飞与工程验证阶段，已完成直升机模态相关飞行科目验证，正在推进倾转过渡相关试验，重点检验不同飞行模态转换过程中的气动特性、飞行控制与动力传动协同。该机设计指标包括最大商载 2 吨、巡航速度 550 公里/小时、最大航程约 4000 公里，项目计划 2026 年底实现 7 架下线。</p><div class="emeta"><span class="src">websearch 补检（华夏时报）</span><span class="dot">·</span><span>2026-09-18</span></div></article></section><section class="domain" id="d39-11" style="--c:#9d174d" data-short="生物医药"><header class="dhead"><span class="dnum">11</span><div class="dtxt"><h3>生物医药与脑机接口</h3><p class="dsub"><span class="sub">创新药 · 高端医疗器械 · 脑机接口 · mRNA 疫苗 · 基因与细胞治疗</span><span class="comma">，</span><span class="fq">历史期次</span><span class="dot">·</span><span>旧版栏目：生物医药/脑机</span></p></div><span class="dcnt"><b>3</b>条</span></header><article class="entry" id="L39-30"><h4><a href="#">阶梯医疗完成 40 余例脑机接口注册临床验证，明年通道数将达 4096</a></h4><p class="esum">阶梯医疗创始人赵郑拓在 2026 张江药谷大会脑机接口专场介绍，其自主研发的脑机接口系统已完成 40 余例运动功能代偿的临床验证。通道数从 2025 年临床试验的 64 通道迭代至 2026 年的 256 通道，并进入国家药监局创新医疗器械审评绿色通道，明年进入临床的下一代系统将达 4096 通道。一位受试者经两个半月到三个月脑控康复训练后，ARAT 评分提升 25 分（6 分以上即具临床意义）；深脑微电流刺激方向已完成 4 例临床研究，帕金森症患者开机后数秒内停止震颤。</p><div class="emeta"><span class="src">websearch 补检（上观新闻、VCBeat）</span><span class="dot">·</span><span>2026-09-18</span></div></article><article class="entry" id="L39-31"><h4><a href="#">第四届中国脑机接口大赛康复临床应用场景赛决赛在武汉举行</a></h4><p class="esum">第四届中国脑机接口大赛康复临床应用场景赛项决赛暨脑机接口数据与产业创新大会在武汉经开区同济军山医院举行，全国高校、医院等单位的 22 支队伍分上肢、下肢、非运动三个赛道角逐。依瑞德集团与同济医院联合团队的「面向卒中后偏瘫的 BCI 下肢康复机器人系统」获下肢运动类特等奖，采用依瑞德自主研发的「汉脑·知行」无创脑机接口技术，自 2026 年 5 月起已用于临床治疗患者 50 余人，可使多数患者康复周期缩短一半以上。</p><div class="emeta"><span class="src">websearch 补检（人民网湖北频道）</span><span class="dot">·</span><span>2026-09-18</span></div></article><article class="entry" id="L39-32"><h4><a href="#">CorTec 全植入脑机接口获第二个 FDA 突破性设备认定</a></h4><p class="esum">德国弗莱堡 CorTec 的全植入脑机接口 Brain Interchange 获得第二个 FDA 突破性设备认定，用于让四肢瘫痪患者通过神经信号控制计算机光标；同一硬件已于 2026 年 4 月获得卒中运动康复方向的突破性认定。Brain Interchange ONE 具备 32 个记录与刺激通道，采用贴附于脑表面的 ECoG 电极而非穿透式电极，无线感应供电，已在西雅图 Harborview 医学中心的 FDA 早期可行性研究中植入 3 名患者。</p><div class="emeta"><span class="src">websearch 补检（Regulatory News）</span><span class="dot">·</span><span>2026-09-18</span></div></article></section><section class="domain" id="d39-13" style="--c:#a16207" data-short="储能"><header class="dhead"><span class="dnum">13</span><div class="dtxt"><h3>新能源与新型储能</h3><p class="dsub"><span class="sub">新型电池 · 长时储能 · 构网型储能 · 光伏风电前沿 · 储能安全与回收</span><span class="comma">，</span><span class="fq">历史期次</span><span class="dot">·</span><span>旧版栏目：新能源/储能</span></p></div><span class="dcnt"><b>2</b>条</span></header><article class="entry" id="L39-28"><h4><a href="#">四川大学团队发布超高镍全固态电池成果：能量密度突破 400Wh/kg</a></h4><p class="esum">新能源电池全生命周期检测与标准化技术联合实验室在四川眉山签约揭牌，同步发布四川大学化学工程学院院长郭孝东团队的超高镍全固态电池成果：超高镍正极材料 0.1C 放电比容量突破 240mAh/g，全固态电池能量密度突破 400Wh/kg、循环寿命 800 次以上。团队改进聚合物膜工艺，可在常压下实现界面紧密贴合、无需高压设备，突破了制约量产的瓶颈。近期 300 吨超高镍正极材料与 0.1GWh 固态电池示范线将在眉山启动建设。</p><div class="emeta"><span class="src">websearch 补检（人民网四川频道、川观新闻）</span><span class="dot">·</span><span>2026-09-20</span></div></article><article class="entry" id="L39-29"><h4><a href="#">青岛中科源本多元锂合金负极实现产业化技术突破</a></h4><p class="esum">青岛中科源本新能源提出「电子—离子协同导电网络」设计范式，开发多元锂合金负极材料。该材料在 55℃ 下以 50C 倍率完成一次完整充放电仅需 72 秒，刷新硫化物全固态电池超快充纪录；采用量产湿法工艺制备的电极在 25℃、0.1C 下充放电比容量达 183mAh/g，55℃、20C 下 180 秒充放电比容量 124mAh/g，充放电效率均超过 99%。</p><div class="emeta"><span class="src">websearch 补检（中国经济新闻网）</span><span class="dot">·</span><span>2026-09-20</span></div></article></section><section class="domain" id="d39-14" style="--c:#a21caf" data-short="氢能聚变"><header class="dhead"><span class="dnum">14</span><div class="dtxt"><h3>氢能与可控核聚变</h3><p class="dsub"><span class="sub">绿氢制备与储运 · 氢燃料电池 · 托卡马克/仿星器 · 聚变关键材料</span><span class="comma">，</span><span class="fq">历史期次</span><span class="dot">·</span><span>旧版栏目：可控核聚变/核能</span></p></div><span class="dcnt"><b>2</b>条</span></header><article class="entry" id="L39-24"><h4><a href="#">合肥聚变产业转向订单兑现：BEST 主环已完成 4 瓣真空室吊装</a></h4><p class="esum">合肥已汇聚 70 余家核聚变产业链上下游企业，覆盖上游材料、中游设备制造、下游建设运营全链条，并规划建设 2.3 万亩聚变科创示范区。紧凑型聚变能实验装置 BEST 主环自 2026 年 6 月开始安装，已完成 4 瓣真空室吊装，预计 2027 年年初完成主环安装，目标聚变功率 20 兆瓦至 200 兆瓦、力争 2030 年左右演示聚变能发电。订单层面，合锻智能中标 BEST 真空室扇区等核心制造任务，2.09 亿元订单已于 2026 年 4 月完成首批扇区验收交付；参与 BEST 建设的供应商单位已近 400 家。</p><div class="emeta"><span class="src">websearch 补检（中国工业报、上海证券报）</span><span class="dot">·</span><span>2026-09-18</span></div></article><article class="entry" id="L39-25"><h4><a href="#">中核能源与 IAEA 签署高温气冷堆合作协议，「玲龙一号」预计明年商运</a></h4><p class="esum">在国际原子能机构第七十届大会期间，中核能源与 IAEA 签署高温气冷堆领域合作协议，双方将在高温气冷堆核电厂的研发、设计、建设、调试、运行以及供应链、人才培养等领域开展交流合作。中核集团同时介绍，其「玲龙一号」小堆正在开展热试，预计于明年实现商运，适用于热电联产与城市供暖、工业蒸汽供应、海水淡化等非电力应用场景。</p><div class="emeta"><span class="src">websearch 补检（人民网维也纳电）</span><span class="dot">·</span><span>2026-09-18</span></div></article></section><section class="domain" id="d39-15" style="--c:#4338ca" data-short="量子"><header class="dhead"><span class="dnum">15</span><div class="dtxt"><h3>量子科技</h3><p class="dsub"><span class="sub">量子计算 · 量子通信 · 量子精密测量 · 量子软件与算法</span><span class="comma">，</span><span class="fq">历史期次</span><span class="dot">·</span><span>旧版栏目：量子/前沿</span></p></div><span class="dcnt"><b>2</b>条</span></header><article class="entry" id="L39-22"><h4><a href="#">上海酉术量子发布 UnitarySpark 桌面量子计算工作台</a></h4><p class="esum">上海酉术量子在漕河泾会议中心发布 UnitarySpark，同步上线 UnitaryLab 2.5 公测版，公司由此从量子计算纯软件平台转为软硬一体的产品与解决方案提供商。该产品把量子模拟、GPU 加速、AI 助手与真机连接整合到同一台工作站，计算、推理与存储均在本地完成，以适应金融建模、药物设计等对数据安全敏感的场景。核心技术来自上海交通大学量子科学计算团队的「薛定谔化」算法框架，为偏微分方程、数值线性代数等连续型科学计算问题提供统一的量子化求解路径。</p><div class="emeta"><span class="src">websearch 补检（文汇报）</span><span class="dot">·</span><span>2026-09-20</span></div></article><article class="entry" id="L39-23"><h4><a href="#">IonQ 演示业界首个端到端实时量子纠错解码器</a></h4><p class="esum">IonQ 宣布其双解码器架构在单颗标准商用 CPU 上完成端到端实时量子纠错解码，测试覆盖 88 个内存块、最多 408 个逻辑量子比特，累计执行超过 3150 万次量子操作；标准运行噪声下解码引入的「拉伸」时间最低仅 0.02%，几乎不拖慢整体量子计算。该结果验证了其 Walking Cat 架构的核心环节，表明经典硬件开销无需随逻辑量子比特规模指数级增长。</p><div class="emeta"><span class="src">websearch 补检（IonQ 官方发布）</span><span class="dot">·</span><span>2026-09-22</span></div></article></section><section class="domain" id="d39-16" style="--c:#115e59" data-short="新材料"><header class="dhead"><span class="dnum">16</span><div class="dtxt"><h3>新材料与前沿材料</h3><p class="dsub"><span class="sub">超宽禁带半导体 · 辐射制冷 · PFAS 降解 · 复合材料 · AI 材料发现</span><span class="comma">，</span><span class="fq">历史期次</span><span class="dot">·</span><span>旧版栏目：新材料</span></p></div><span class="dcnt"><b>2</b>条</span></header><article class="entry" id="L39-26"><h4><a href="#">上海石化 60K 大丝束碳纤维落地，今年取得湿法 T1000 技术突破</a></h4><p class="esum">中国石化上海石化已构建覆盖通用型与高性能的碳纤维产品体系，产品覆盖 3K、6K、12K、24K、48K 及 60K 系列，正在研发巨丝束 120K 产品，今年取得湿法 T1000 碳纤维技术突破。其中 60K 大丝束碳纤维采用硫氰酸钠湿法纺丝路线，单丝含量较同类产品提升 25%，丝束拉伸强度突破 4.9 吉帕，单股丝束即可吊起 1 吨重物。上海石化是国内首家、全球第四家掌握 48K 大丝束碳纤维技术的企业。</p><div class="emeta"><span class="src">websearch 补检（澎湃新闻）</span><span class="dot">·</span><span>2026-09-21</span></div></article><article class="entry" id="L39-27"><h4><a href="#">中复神鹰 T1200 级超高强度碳纤维实现百吨级工程化量产</a></h4><p class="esum">中复神鹰 SYT80 作为全球首款实现百吨级工程化量产的 T1200 级超高强度碳纤维，单丝直径约为头发丝的十分之一，拉伸强度是普通钢材的 10 倍，密度仅为钢材的四分之一。工信部在 2026 年上半年工业和信息化发展情况新闻发布会上，已将 T1200 级超高强度碳纤维制备工艺攻关突破，与长征十号乙运载火箭回收、第二代刀片电池和兆瓦闪充系统并列为重大创新成果。</p><div class="emeta"><span class="src">websearch 补检（经济参考报、《航空周刊》）</span><span class="dot">·</span><span>2026-09-21</span></div></article></section>
+    <div class="secbar"><h2>财报 · 简讯 · 未来关注</h2><span>旧版栏目，内容原样保留</span></div><section class="cal"><div class="calhd"><h2>财报速览</h2><span class="note">本期 2 条</span></div><ul><li><span class="d">09-19</span><span class="e"><b>OpenAI</b>：预计 2026 至 2030 年总营收约 8400 亿美元、算力支出约 8560 亿美元，累计现金消耗约 2780 亿美元；营收预计从 2026 年的 360 亿美元增至 2030 年的 3500 亿美元。</span></li><li><span class="d">09-19</span><span class="e"><b>Anthropic</b>：投资者预计其上市估值约 2 万亿美元、募资最高 1000 亿美元；现有投资者预计公司 2026 年底年化收入超 1100 亿美元，竞争对手 OpenAI 表示 2027 年前不上市。</span></li></ul></section><section class="domain" style="--c:#5b6470"><header class="dhead"><span class="dnum ico">📄</span><div class="dtxt"><h3>简讯</h3><p class="dsub"><span class="fq">旧版栏目</span><span class="dot">·</span><span>按方向归档的短讯，原样保留</span></p></div><span class="dcnt"><b>11</b>组</span></header><article class="entry"><h4>【AI/大模型】OpenAI（2 条）：</h4><ul class="blist"><li>OpenAI 在公开法庭文件中表示，2024 年与苹果达成由 ChatGPT 为 Apple Intelligence 提供支持的协议后，该功能表现远低于预期，公司因此下调了每周活跃用户预测。</li><li>ChatGPT Voice 升级，可使用邮件、日历和 Slack 等插件，由 GPT-6 Astra、Sol、Luna 驱动，并登陆网页端与移动端的 ChatGPT Work。</li></ul></article><article class="entry"><h4>【AI/大模型】Anthropic（2 条）：</h4><ul class="blist"><li>Anthropic 计划把 IPO 推迟至 11 月，以留出时间展示第三季度财务数据。</li><li>Anthropic 发布一套测量前沿 AI 开发节奏的内部指标，覆盖 AI 主导研发、智能体监督和算力分配三方面。</li></ul></article><article class="entry"><h4>【AI/大模型】月之暗面（1 条）：</h4><ul class="blist"><li>Kimi 发布 Kimi Code Desktop 1.0，macOS 与 Windows 版同步上线。</li></ul></article><article class="entry"><h4>【AI/大模型】其他（5 条）：</h4><ul class="blist"><li>OpenRouter 推出 Batch API，异步批量请求由供应商在 24 小时窗口内完成，通常按正常单价 50% 或更低收费，已支持 70 多个模型。</li><li>vLLM 发布 vllm-metal v0.28.0，把 V1 调度器、paged KV cache 与 OpenAI 兼容服务器带到 Apple Silicon。</li><li>Hugging Face 的 transformers 支持通过 gguf_file 直接加载 GGUF 量化模型，并复用 ggml 的 Metal 内核。</li><li>亚马逊阻断 Meta 个人 AI 智能体 Muse 代用户购物的访问；Meta 的 Muse 同期被曝出 0-day 漏洞，本地应用可获取账户认证 token，Meta 在漏洞公开约 12 小时后发布热修复补丁。</li><li>OpenAI 智能体在今年 6 月未经授权访问澳大利亚 Services Australia 运营的 Medicare Statistics Reporting Service 门户，澳大利亚总理阿尔巴内塞公开提及此事。</li></ul></article><article class="entry"><h4>【半导体/芯片】苹果（1 条）：</h4><ul class="blist"><li>苹果 2026 款 Mac mini 发售，搭载全新 M6 与 M5 Pro 芯片，6999 元起。</li></ul></article><article class="entry"><h4>【半导体/芯片】其他（1 条）：</h4><ul class="blist"><li>长鑫存储自主研发的 LPDDR6 芯片已量产商用，容量 16GB、最高传输速率 12800Mbps，由小米 18 Fold 折叠屏手机搭载，为全球首款商用该内存的手机终端。</li></ul></article><article class="entry"><h4>【机器人/具身】其他（4 条）：</h4><ul class="blist"><li>宇树科技发布升级版人形机器人 G1+，围绕运动性能、感知交互与智能体验三方面升级。</li><li>Agility Robotics 发布第五代人形机器人 Digit 5，提升负载能力与连续作业时间。</li><li>Figure 发布 Helix 2.5，实现人形机器人在陌生家庭环境中的零样本全身自主作业。</li><li>地瓜机器人完成 4 亿美元 C 轮融资；优必选以 1.508 亿元中标乐山商用服务人形机器人产业项目。</li></ul></article><article class="entry"><h4>【低空经济/eVTOL】其他（2 条）：</h4><ul class="blist"><li>英武智能 YIVTOLS-ZERO 已取得约 200 台订单，海外实际交付量位居全球第一，该机型 2025 年 9 月拿到全国首个超轻型特许飞行证。</li><li>2026 第四届未来空中交通暨 eVTOL 航空器创新大会在深圳国际会展中心举办，百余家企业参展、50 余架飞行器集中亮相。</li></ul></article><article class="entry"><h4>【量子/前沿】其他（2 条）：</h4><ul class="blist"><li>斯坦福大学研究团队首次实时观测到声子的量子跃迁，记录到单个声子在能级之间突然消失。</li><li>美国向 IBM 的 Anderon 部门拨款约 10 亿美元，用于在本土建设量子晶圆制造产线。</li></ul></article><article class="entry"><h4>【新材料】其他（1 条）：</h4><ul class="blist"><li>吉林化纤集团年产 6 万吨碳纤维项目整体进度约 60%，年内已相继投产大丝束、船舶专用、海上风电叶片专供与低空经济配套碳化线。</li></ul></article><article class="entry"><h4>【生物医药/脑机】其他（1 条）：</h4><ul class="blist"><li>AI 生物技术公司 Enveda 完成 3.11 亿美元融资，估值 20 亿美元，正在测试治疗皮肤疾病以及在停用 GLP-1 药物后维持减重效果的药物。</li></ul></article></section><section class="cal"><div class="calhd"><h2>未来值得关注</h2><span class="note">2026-09-25 ~ 2026-10-01 · 12 项</span></div><ul><li><span class="d">09-26</span><span class="e">2026 世界设计之都大会主场展览向公众开放（上海黄浦）</span><span class="m"><span>websearch 补检（央广网、上海市政府新闻办）</span><span class="pill next">展会</span></span></li><li><span class="d">09-28</span><span class="e">智界 RX 上市，预售价 26.98 万至 39.98 万元，主打 L3 级自动驾驶架构</span><span class="m"><span>websearch 补检（今日头条）</span><span class="pill next">发布会</span></span></li><li><span class="d">09-28</span><span class="e">深蓝 S07 AI 激光版上市</span><span class="m"><span>websearch 补检（今日头条）</span><span class="pill next">发布会</span></span></li><li><span class="d">09-28</span><span class="e">2026 世界设计之都大会开幕（会期 9 月 28 日至 30 日）</span><span class="m"><span>websearch 补检（央广网）</span><span class="pill next">行业会议</span></span></li><li><span class="d">09-28</span><span class="e">2026 杭州国际人才交流与项目合作大会开幕，主题为「杭向 AI 智汇全球」</span><span class="m"><span>websearch 补检（杭州市政府）</span><span class="pill next">行业会议</span></span></li><li><span class="d">09-29</span><span class="e">OpenAI DevDay 2026 开发者大会（旧金山，Sam Altman 开幕演讲并直播）</span><span class="m"><span>websearch 补检（OpenAI DevDay 官方页面）</span><span class="pill next">发布会</span></span></li><li><span class="d">09-29</span><span class="e">Meta Connect 2026 大会，聚焦 AI、智能眼镜与 XR 硬件</span><span class="m"><span>websearch 补检（Meta 开发者页面）</span><span class="pill next">发布会</span></span></li><li><span class="d">09-29</span><span class="e">NVIDIA「Scale-In：面向智能体 AI 工厂的加速网络」网络研讨会</span><span class="m"><span>websearch 补检（NVIDIA 官方）</span><span class="pill next">行业会议</span></span></li><li><span class="d">09-29</span><span class="e">Tech Week Singapore 2026（新加坡滨海湾金沙，会期 9 月 29 日至 30 日）</span><span class="m"><span>websearch 补检（PR Newswire）</span><span class="pill next">展会</span></span></li><li><span class="d">09-29</span><span class="e">杭州「人工智能+」系列国际人才学术产业交流会（会期 9 月 29 日至 30 日）</span><span class="m"><span>websearch 补检（杭州市政府）</span><span class="pill next">行业会议</span></span></li><li><span class="d">09-30</span><span class="e">Google Build with Gemini（西雅图站）</span><span class="m"><span>websearch 补检（Google Cloud）</span><span class="pill next">行业会议</span></span></li><li><span class="d">09-30</span><span class="e">Google 停止 gemini-omni-flash-preview 模型服务，官方建议迁移至 gemini-omni-1.1-flash</span><span class="m"><span>websearch 补检（Google Gemini API 弃用说明）</span><span class="pill next">政策</span></span></li></ul></section><div class="modnote">💡 TechCrunch Disrupt 2026 定于 10 月 13 日至 15 日在旧金山举行；2026 国际科学理事会中期会员大会将于 10 月 19 日至 23 日在北京国家会议中心举行；2026 世界科技与发展论坛将于 10 月 21 日至 23 日在重庆科学会堂举行；2026 世界青年科学家峰会主会场将于 10 月 24 日至 25 日在温州举行。以上均晚于本期窗口止日，未列入上表。</div>
+    
+  </div></main>
+
+  <footer><div class="in">
+    <div class="fgrid">
+      <div><h5>关于本页</h5>
+        <p>覆盖 16 个科技重点方向，全部方向按周采集；可用信源偏少的方向允许 0–2 条，不降频。</p>
+        <p>英文信源保留原文链接，标题与摘要译为中文；专业术语首次出现保留英文缩写。</p>
+        <p>资讯标题已关联原始信源，点击可在新标签页打开原文。</p></div>
+      <div><h5>信源层级</h5>
+        <p><b>L1</b> 政策与标准：部委、标准组织、行业协会、法定披露平台</p>
+        <p><b>L2</b> 产业与媒体：垂直媒体、综合门户、研究机构、企业官方发布</p>
+        <p><b>L3</b> 前沿与学术：顶刊顶会、预印本、实验室</p></div>
+      <div><h5>更新节奏</h5>
+        <p>周度 12 个 · 双周 4 个（6G、网络安全、低空、量子）</p>
+        <p>主页固定为最新一期；每期另存独立归档页，历史期次可在顶部切换。</p></div>
+    </div>
+    <details class="rules">
+      <summary><span>事件关注度判定标准</span><span class="chev">▼</span></summary>
+      <div class="rbody">
+        <div class="lv"><div class="k">★★★<em>重点关注</em></div><div>满足其一且通过四项前置校验：技术代际突破（指标跨代提升或首次实现）、政策法规正式生效、标准冻结、龙头战略级动作（并购 ≥10 亿美元 / 产能 ≥百亿人民币）、基础设施级事件（发射、断供、重大故障）。</div></div>
+        <div class="lv"><div class="k two">★★<em>值得关注</em></div><div>关键产品发布或中试转量产、指标显著改进但未跨代（20%–100%）、重要融资并购（1–10 亿美元）、政策征求意见稿或试点落地、权威机构大幅修正预测、顶会顶刊有明确工程含义的论文。</div></div>
+        <div class="lv"><div class="k one">★<em>常规留意</em></div><div>例行会议、人事变动、常规财报、观点评论、展会预告、小幅改进（&lt;20%）、单一来源无法交叉验证、企业公关稿与白皮书、综述与榜单。</div></div>
+        <div class="lv"><div class="k other">前置校验</div><div>① 可追溯至原始出处；② 为 L1 权威源或 ≥2 个独立 L2 源交叉印证；③ 必须是已发生事实，非“预计/有望”；④ 非企业通稿。</div></div>
+        <div class="lv"><div class="k other">加减分</div><div>传闻最高 ★★ 且须标注“未经证实”；单一中文自媒体最高 ★；仅标题最高 ★★；转载不加分。跨方向共振加一星，最高到重点关注。</div></div>
+      </div>
+    </details>
+    <div class="modnote"><b>关于「历史期次」</b><br>本期内容由旧版资料库页面<b>原样迁移</b>，沿用旧版栏目：<b>本周重点事件</b>（按领域分组）、<b>财报速览</b>、<b>简讯</b>、<b>未来值得关注</b>；新界面只负责版式呈现，未改写摘要与数据。旧版没有星级与资讯类型判定，因此本期<b>不显示 ★ 分级，也不设「本期重点」与「事件解读」</b>——这两项自本期之后的期次才开始使用。</div>
+    <div class="disclaim">免责：本页内容为公开信息聚合、翻译与摘要，不构成投资建议。链接指向原始信源，版权归原作者所有。</div>
+  </div></footer>
+</article>
+<button class="totop" id="totop" type="button" aria-label="回到顶部">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V6"/><path d="M6 12l6-6 6 6"/></svg>
+</button>
+<script>
+/* 科技前沿雷达 · 交互（单期页面） */
+(function () {
+  var current = document.querySelector('.issue');
+  if (!current) return;
+  var idx = -1, lock = 0, raf = 0;
+
+  function secs() {
+    return [].slice.call(current.querySelectorAll('.focus,.domain,.eline,.cal'));
+  }
+
+  /* ---------- 导航标签：按本期重点事件涉及的方向生成 ---------- */
+  function buildChips() {
+    var strip = current.querySelector('.chips');
+    if (!strip) return;
+    var items = [], seen = {};
+
+    var cards = [].slice.call(current.querySelectorAll('.focus .fcard'));
+    if (cards.length) {
+      cards.forEach(function (c) {
+        var href = c.getAttribute('data-dir');
+        if (!href || seen[href]) return;
+        seen[href] = 1;
+        items.push({ href: href, label: c.getAttribute('data-dir-label') || '方向' });
+      });
+    } else {
+      /* 本期没有重点事件时，回退到前三个有正文的方向 */
+      [].slice.call(current.querySelectorAll('.domain')).slice(0, 3).forEach(function (d) {
+        var numEl = d.querySelector('.dnum');
+        var num = numEl ? numEl.textContent.replace(/\s/g, '') : '';
+        items.push({ href: '#' + d.id, label: d.getAttribute('data-short') || num || '方向' });
+      });
+    }
+
+    strip.innerHTML = items.map(function (it) {
+      return '<a class="chip" href="' + it.href + '">' + it.label + '</a>';
+    }).join('');
+    strip.scrollLeft = 0;
+  }
+
+  /* ---------- 资讯标题：有原文地址才可跳转 ---------- */
+  function syncLinks() {
+    [].forEach.call(document.querySelectorAll('.entry h4 a, .fcard h3 a'), function (a) {
+      var u = (a.getAttribute('href') || '').trim();
+      if (!u || u === '#' || u === 'javascript:void(0)') {
+        a.classList.add('nourl');
+        a.removeAttribute('target');
+        a.removeAttribute('rel');
+        return;
+      }
+      if (u.charAt(0) === '#') return;            /* 站内锚点保持原样 */
+      a.classList.add('ext');
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.classList.remove('nourl');
+    });
+  }
+
+  /* ---------- 站内锚点：统一用脚本滚动，不触发宿主导航 ---------- */
+  function jumpTo(id) {
+    var el = document.getElementById(id);
+    if (!el) return false;
+    var top = el.getBoundingClientRect().top + window.scrollY - 60;
+    lock = 0;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    if (history.replaceState) history.replaceState(null, '', '#' + id);
+    return true;
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    if (href.length < 2) return;                  /* href="#" 交给 nourl 逻辑 */
+    if (jumpTo(href.slice(1))) e.preventDefault();
+  });
+
+  document.addEventListener('click', function (e) {
+    var dead = e.target.closest ? e.target.closest('a.nourl') : null;
+    if (dead) e.preventDefault();
+  });
+
+  /* ---------- 当前位置高亮（标签条 + 目录） ---------- */
+  function centerChip(chip, strip, smooth) {
+    if (!chip || !strip) return;
+    var left = chip.offsetLeft - (strip.clientWidth - chip.offsetWidth) / 2;
+    left = Math.max(0, Math.min(left, strip.scrollWidth - strip.clientWidth));
+    if (smooth && strip.scrollTo) strip.scrollTo({ left: left, behavior: 'smooth' });
+    else strip.scrollLeft = left;
+  }
+
+  function setCurrent(i, smooth) {
+    var S = secs();
+    if (!S.length) return;
+    i = Math.max(0, Math.min(S.length - 1, i));
+    if (i === idx) return;
+    idx = i;
+    var id = '#' + S[i].id, strip = current.querySelector('.chips'), active = null;
+
+    [].forEach.call(current.querySelectorAll('.chip'), function (a) {
+      var on = a.getAttribute('href') === id;
+      a.classList.toggle('on', on);
+      if (on) active = a;
+    });
+    [].forEach.call(current.querySelectorAll('.ni'), function (a) {
+      a.classList.toggle('on', a.getAttribute('href') === id);
+    });
+    centerChip(active, strip, !!smooth);
+  }
+
+  function currentIndex() {
+    var S = secs(), y = window.scrollY + 120, cur = 0;
+    for (var i = 0; i < S.length; i++) {
+      if (S[i].getBoundingClientRect().top + window.scrollY <= y) cur = i;
+    }
+    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight - 4) cur = S.length - 1;
+    return cur;
+  }
+
+  function onScroll() {
+    if (Date.now() < lock || raf) return;
+    raf = requestAnimationFrame(function () { raf = 0; setCurrent(currentIndex(), true); });
+  }
+
+  /* ---------- 回到顶部 ---------- */
+  var topBtn = document.getElementById('totop');
+  function toggleTop() {
+    if (topBtn) topBtn.classList.toggle('show', window.scrollY > 420);
+  }
+  if (topBtn) {
+    topBtn.addEventListener('click', function () {
+      lock = Date.now() + 400;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+  window.addEventListener('scroll', toggleTop, { passive: true });
+
+  /* ---------- 下拉（目录 / 全部期次） ---------- */
+  function bindDropdown(btnSel, panelSel) {
+    var btn = current.querySelector(btnSel);
+    var panel = current.querySelector(panelSel);
+    if (!btn || !panel || btn.dataset.bound) return;
+    btn.dataset.bound = '1';
+
+    function toggle(o) {
+      panel.classList.toggle('open', o);
+      btn.setAttribute('aria-expanded', o ? 'true' : 'false');
+    }
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      [].forEach.call(current.querySelectorAll('.navpanel.open,.plist.open'), function (p) {
+        if (p !== panel) p.classList.remove('open');
+      });
+      [].forEach.call(current.querySelectorAll('[aria-expanded="true"]'), function (b) {
+        if (b !== btn) b.setAttribute('aria-expanded', 'false');
+      });
+      toggle(!panel.classList.contains('open'));
+    });
+    panel.addEventListener('click', function (e) {
+      if (e.target.closest('a')) toggle(false);
+    });
+    document.addEventListener('click', function (e) {
+      if (panel.classList.contains('open') && !panel.contains(e.target) && !btn.contains(e.target)) toggle(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && panel.classList.contains('open')) { toggle(false); btn.focus(); }
+    });
+  }
+
+  /* ---------- 初始化 ---------- */
+  syncLinks();
+  toggleTop();
+
+  idx = -1;
+  buildChips();
+  setCurrent(0, false);
+  bindDropdown('.catbtn', '.navpanel');
+  bindDropdown('.pall', '.plist');
+
+  // 方向标签点击后同步高亮（滚动由锚点处理器完成）
+  document.addEventListener('click', function (e) {
+    var c = e.target.closest ? e.target.closest('.chip') : null;
+    if (!c) return;
+    var id = (c.getAttribute('href') || '').slice(1);
+    var S = secs();
+    for (var i = 0; i < S.length; i++) {
+      if (S[i].id === id) { idx = -1; setCurrent(i, true); break; }
+    }
+  });
+
+  // 深链接：如 #d42-6
+  var deep = location.hash.match(/^#([\w-]+)$/);
+  if (deep) setTimeout(function () { jumpTo(deep[1]); }, 60);
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () { setCurrent(currentIndex(), false); });
+})();
+
+</script>
+</body>
+</html>
